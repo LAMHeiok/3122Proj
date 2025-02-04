@@ -8,7 +8,7 @@ writing_type = st.selectbox("Choose a writing type:", ["Narrative", "Descriptive
 
 # Complete writing sentence based on the selected type
 if writing_type == "Narrative":
-    example_sentence = "Once uphohiihoihoon a time in a small village, a young girl named Lily discovered a hidden treasure."
+    example_sentence = "Once upoa young girl named Lily discovered a hidden treasure."
 elif writing_type == "Descriptive":
     example_sentence = "The sunset painted the sky in hues of orange and pink, casting a warm glow over the tranquil sea."
 elif writing_type == "Expository":
