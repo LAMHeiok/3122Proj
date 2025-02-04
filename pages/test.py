@@ -12,7 +12,11 @@ if writing_type == "Narrative":
 elif writing_type == "Descriptive":
     example_sentence = "The sunset painted the sky in hues of orange and pink, casting a warm glow over the tranquil sea."
 elif writing_type == "Expository":
+<<<<<<< HEAD
     example_sentence = "Photosdfgsdfpgjopsdfojpsdfojg by which green plants use sunlight to synthesize foods with the help of chlorophyll."
+=======
+    example_sentence = "Photosyness by which green plants use sunlight to synthesize foods with the help of chlorophyll."
+>>>>>>> 25acb41c73cc663bdd52d0b8955842b2ae333762
 elif writing_type == "Persuasive":
     example_sentence = "Every citizen should make an effort to vote, as it is our fundamental right and the foundation of democracy."
 elif writing_type == "Persuaive":
