@@ -15,7 +15,7 @@ elif writing_type == "Expository":
     example_sentence = "Photosynthesis is the process by which green plants use sunlight to synthesize foods with the help of chlorophyll."
 elif writing_type == "Persuasive":
     example_sentence = "Every citizen should make an effort to vote, as it is our fundamental right and the foundation of democracy."
-elif writing_type == "Persuaive":
+elif writing_type == "Persuaives":
     example_sentence = "Every citizen should make an effort to vote, as it is our fundamental right and the foundation of democracy."
 
 # Display the example sentence
