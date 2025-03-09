@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Base HTML - Page Switching</title>
+<script src="/js/switchPage.js"></script>
 </head>
 <body>
 
     <nav>
-        <button onclick="loadContent('index1.html','content-container')">Home</button>
-        <button onclick="loadContent('file_upload.html','content-container')">Home</button>
-        <button onclick="loadContent('uestion_show.html','content-container')">Home</button>
+        <button onclick="loadContent('/pages/index1.html','content-container')">Home</button>
+        <button onclick="loadContent('/pages/file_upload.html','content-container')">File Upload</button>
+        <button onclick="loadContent('/pages/question_show.html','content-container')">Question Show</button>
     </nav>
 
     <div id="content-container">
@@ -21,7 +23,6 @@
 
 
 </body>
-    <script src="js/switchPage.js"></script>
     <script>
         window.onload = function() {
             loadContent('index1.html', 'content-container');
