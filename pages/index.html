@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base HTML - Page Switching</title>
+</head>
+<body>
+
+    <nav>
+        <button onclick="loadContent('index1.html','content-container')">Home</button>
+        <button onclick="loadContent('file_upload.html','content-container')">Home</button>
+        <button onclick="loadContent('uestion_show.html','content-container')">Home</button>
+    </nav>
+
+    <div id="content-container">
+        <!-- Content will be loaded here -->
+        <h1>Welcome!</h1>
+        <p>Click a button above to load different content.</p>
+    </div>
+
+
+</body>
+    <script src="js/switchPage.js"></script>
+    <script>
+        window.onload = function() {
+            loadContent('index1.html', 'content-container');
+        };
+    </script>
+    </html>

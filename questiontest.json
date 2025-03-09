@@ -1,0 +1,40 @@
+{
+    "exerciseId": 10000,
+    "exerciseTitle": "Exercise 1: no content At all",
+    "sections": 
+    [
+        {
+        "sectionId": 11000,
+        "sectionTitle": "A.: Thank you but no",
+        "questions": [
+            {
+                "questionId": 11001,
+                "questionText": "This is a test MC question",
+                "correctAnswer": 2,
+                "questionType": 1,
+                "answerShow": "",
+                "options": [
+                    "yes",
+                    "no",
+                    "ok",
+                    "not ok"
+                ]
+            }
+        ]
+    },
+    {
+        "sectionId": 12000,
+        "sectionTitle": "B. No Thank you, no fankiu",
+        "questions": [
+            {
+                "questionId": 12001,
+                "questionText": "This is a test short/long question: should people always say thank you?",
+                "correctAnswer": "Yes, they should./Yes, they should always say thank you.",
+                "questionType": 2,
+                "answerShow": "Yes, they should"
+            }
+        ]
+    }
+
+]
+}
