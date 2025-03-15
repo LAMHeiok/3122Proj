@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMStudio Client</title>
+</head>
+<body>
+    <h1>LMStudio Text Generation</h1>
+    <textarea id="prompt" placeholder="Enter your prompt here..." rows="4" cols="50"></textarea>
+    <br><br>
+    <button id="generateButton">Generate Response</button>
+    <h2>Response:</h2>
+    <pre id="response"></pre>
+
+<script src="/js/AIReponse.js"></script>
+<script>
+    var run = (() => {
+    const generateButton = document.querySelector('#generateButton');
+    const promptTextarea = document.querySelector('#prompt');
+    const responseDiv = document.querySelector('#response');
+
+    // Add event listener without invoking sendLLM immediately
+    generateButton.addEventListener('click', () => sendLLM(promptTextarea, responseDiv));
+
+    // Define sendLLM function
+    async function sendLLM(container, targetEle) {
+        console.log('sendLLM Ran');
+        const uprompt = container.value; // Use .value for textarea
+
+        if (uprompt.trim().length === 0) {
+            targetEle.textContent = 'Please type in something!';
+            return;
+        }
+
+        try {
+            const responseFromLLM = await AIResponse.getResponse(uprompt);
+            targetEle.textContent = `${responseFromLLM}`;
+        } catch (error) {
+            console.error('Error:', error);
+            targetEle.textContent = 'An error occurred. Please try again.';
+        }
+    }
+
+    // Return an object with sendLLM for external access (optional)
+    return {
+        sendLLM
+    };
+})();
+</script>
+
+</body>
+</html>

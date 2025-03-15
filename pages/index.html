@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Base HTML - Page Switching</title>
+<!-- drop your script below, acts like python import from other .py files -->
 <script src="/js/switchPage.js"></script>
+<script src="/js/AIReponse.js"></script>
+
 </head>
 <body>
 
@@ -13,6 +16,7 @@
         <button onclick="loadContent('/pages/index1.html','content-container')">Home</button>
         <button onclick="loadContent('/pages/file_upload.html','content-container')">File Upload</button>
         <button onclick="loadContent('/pages/question_show.html','content-container')">Question Show</button>
+        <button onclick="loadContent('/pages/question_generate_temp.html','content-container')">Question generation test </button>
     </nav>
 
     <div id="content-container">
