@@ -1,20 +1,31 @@
 # Requirements
 
-Mar15: added basic AI response
+Mar17: Added functions to upload/read files
+
+Functions:
+- Able to upload .txt/.docx/.csv files
+- Can read .docx file as pure text and saves as .txt file
+
+Problems:
+- Unable to load uploaded files when clicked on "File Upload" button
+- Cannot handle other types of files (If .png file is uploaded, it will cause error. I will fix it later)
 
 Please install Node.js, LMStudio
 
 ```
-npm install crocs, @lmstudio/sdk, express
+npm install @lmstudio/sdk, cors, docx, express, formidable, mammoth
 ```
 
 Version for reference:
 
 ```{
-"dependencies": {
+  "dependencies": {
     "@lmstudio/sdk": "^1.0.1",
     "cors": "^2.8.5",
-    "express": "^4.21.2"
+    "docx": "^9.3.0",
+    "express": "^4.21.2",
+    "formidable": "^2.1.2",
+    "mammoth": "^1.9.0"
   }
 }
 ```
