@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+</head>
+<body>
+    <script src="/js/uploadFileView.js"></script>
+    <script src="/js/loadFile.js"></script>
+
+    <h1>Upload a File</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" id="fileInput" required>
+        <button type="submit">Upload</button>
+    </form>
+    
+    <h2>Uploaded Files</h2>
+    <ul id="fileList"></ul>
+
+    <h2>Uploaded File Content</h2>
+    <pre id="fileContent"></pre>
+</body>
+</html>
