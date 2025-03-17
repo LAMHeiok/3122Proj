@@ -43,7 +43,7 @@ app.post('/generate', async (req, res) => {
         }
 
         // Load the model
-        const model = await client.llm.model("deepseek-r1-distill-qwen-7b".toLowerCase());
+        const model = await client.llm.model("llama-3.2-1b-instruct".toLowerCase());
 
         // Generate a response
         const result = await model.respond(prompt);

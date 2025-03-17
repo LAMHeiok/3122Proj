@@ -4,50 +4,161 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LMStudio Client</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    <style>
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body>
-    <h1>LMStudio Text Generation</h1>
-    <textarea id="prompt" placeholder="Enter your prompt here..." rows="4" cols="50"></textarea>
-    <br><br>
-    <button id="generateButton">Generate Response</button>
-    <h2>Response:</h2>
-    <pre id="response"></pre>
+<body class="bg-white dark:bg-gray-900 min-h-screen transition-colors duration-200">
+    <div class="container mx-auto p-4 max-w-4xl">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">LMStudio Text Generation</h1>
+            <p class="text-gray-600 dark:text-gray-300">Enter your prompt below to generate a response from the LLM</p>
+        </header>
 
-<script src="/js/AIReponse.js"></script>
-<script>
-    var run = (() => {
-    const generateButton = document.querySelector('#generateButton');
-    const promptTextarea = document.querySelector('#prompt');
-    const responseDiv = document.querySelector('#response');
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+            <label for="prompt" class="block text-gray-700 dark:text-gray-200 font-medium mb-2">Prompt</label>
+            <textarea 
+                id="prompt" 
+                placeholder="Enter your prompt here..." 
+                rows="4" 
+                class="w-full px-3 py-2 text-base text-gray-700 dark:text-gray-200 placeholder-gray-500 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-700 resize-y mb-4"
+            ></textarea>
+            
+            <button 
+                id="generateButton" 
+                class="w-full sm:w-auto px-6 py-3 bg-primary hover:bg-opacity-90 text-white rounded-md font-medium transition-colors duration-200 flex items-center justify-center"
+            >
+                <span>Generate Response</span>
+                <span id="loadingSpinner" class="ml-2 hidden spinner">
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </span>
+            </button>
+        </div>
 
-    // Add event listener without invoking sendLLM immediately
-    generateButton.addEventListener('click', () => sendLLM(promptTextarea, responseDiv));
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Response:</h2>
+            <div id="responseContainer" class="mt-2">
+                <pre id="response" class="bg-gray-100 dark:bg-gray-700 p-4 rounded-md text-gray-800 dark:text-gray-200 min-h-[100px] max-h-[500px] overflow-y-auto"></pre>
+            </div>
+        </div>
+    </div>
 
-    // Define sendLLM function
-    async function sendLLM(container, targetEle) {
-        console.log('sendLLM Ran');
-        const uprompt = container.value; // Use .value for textarea
-
-        if (uprompt.trim().length === 0) {
-            targetEle.textContent = 'Please type in something!';
-            return;
+    <script src="/js/AIReponse.js"></script>
+    <script>
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
         }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
 
-        try {
-            const responseFromLLM = await AIResponse.getResponse(uprompt);
-            targetEle.textContent = `${responseFromLLM}`;
-        } catch (error) {
-            console.error('Error:', error);
-            targetEle.textContent = 'An error occurred. Please try again.';
-        }
-    }
+        var run = (() => {
+            const generateButton = document.querySelector('#generateButton');
+            const loadingSpinner = document.querySelector('#loadingSpinner');
+            const promptTextarea = document.querySelector('#prompt');
+            const responseElement = document.querySelector('#response');
 
-    // Return an object with sendLLM for external access (optional)
-    return {
-        sendLLM
-    };
-})();
-</script>
+            // Add event listener without invoking sendLLM immediately
+            generateButton.addEventListener('click', () => sendLLM(promptTextarea, responseElement));
 
+            // Also support Enter key (Ctrl+Enter or Cmd+Enter)
+            promptTextarea.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    sendLLM(promptTextarea, responseElement);
+                }
+            });
+
+            // Define sendLLM function
+            async function sendLLM(container, targetEle) {
+                const promptText = container.value.trim();
+                
+                // Validate input
+                if (promptText.length === 0) {
+                    targetEle.textContent = 'Please enter a prompt before generating a response.';
+                    targetEle.classList.add('text-red-500');
+                    return;
+                }
+                
+                // Show loading state
+                generateButton.disabled = true;
+                loadingSpinner.classList.remove('hidden');
+                targetEle.textContent = 'Generating response...';
+                targetEle.classList.remove('text-red-500');
+                
+                try {
+                    // Format the prompt same as the original code
+                    const uprompt = "Can you give me detail information for: " + promptText;
+                    
+                    // Get response using the existing AIResponse method
+                    const responseFromLLM = await AIResponse.getResponse(uprompt);
+                    
+                    // Display the response
+                    targetEle.textContent = responseFromLLM;
+                    
+                    // Try to save the response, but don't block UI if it fails
+                    try {
+                        await fetch('/saveResponse', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ 
+                                prompt: uprompt, 
+                                response: responseFromLLM 
+                            })
+                        });
+                    } catch (saveError) {
+                        console.warn('Failed to save response:', saveError);
+                        // Continue execution - this is a non-critical error
+                    }
+                    
+                } catch (error) {
+                    console.error('Error generating response:', error);
+                    targetEle.textContent = 'An error occurred while generating a response. Please try again.';
+                    targetEle.classList.add('text-red-500');
+                } finally {
+                    // Reset UI state regardless of success/failure
+                    generateButton.disabled = false;
+                    loadingSpinner.classList.add('hidden');
+                }
+            }
+
+            // Return an object with sendLLM for external access (optional)
+            return {
+                sendLLM
+            };
+        })();
+    </script>
 </body>
 </html>

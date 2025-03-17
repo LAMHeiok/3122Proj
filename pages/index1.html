@@ -1,22 +1,166 @@
 <!DOCTYPE html>
-<style>
-    .content-container{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    </style>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home (index1)</title>
-    <!-- Include the external switchPage.js file -->
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    <style>
+        /* Animation for welcome text */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .welcome-animation {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .button-animation {
+            animation: fadeIn 0.8s ease-out 0.3s backwards;
+        }
+        /* Animation for card hover effect */
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
 </head>
-<body>
-    <div class="content-container">
-    <h1>Welcome to the Index Page</h1>
-    <button onclick="switchToAnotherPage('anotherPage2.html')">Switch to Another Page</button>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div class="content-container max-w-6xl mx-auto px-4 py-12 flex flex-col items-center">
+        <!-- Hero section -->
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-6 welcome-animation">
+                Welcome to LMStudio
+            </h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8 welcome-animation" style="animation-delay: 0.1s">
+                Your intelligent assistant for AI-powered text generation and document management
+            </p>
+            <button 
+                onclick="switchToAnotherPage('anotherPage2.html')" 
+                class="bg-primary hover:bg-opacity-90 text-white font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 button-animation">
+                Get Started
+            </button>
+        </div>
+        
+        <!-- Features section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mb-16">
+            <!-- Feature 1 -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 feature-card">
+                <div class="w-12 h-12 bg-primary bg-opacity-20 rounded-full flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">File Management</h3>
+                <p class="text-gray-600 dark:text-gray-300">
+                    Upload, view, and manage your documents with our intuitive file management system.
+                </p>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 feature-card">
+                <div class="w-12 h-12 bg-primary bg-opacity-20 rounded-full flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Question Generation</h3>
+                <p class="text-gray-600 dark:text-gray-300">
+                    Create multiple-choice questions automatically using our advanced AI system.
+                </p>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 feature-card">
+                <div class="w-12 h-12 bg-primary bg-opacity-20 rounded-full flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Data Visualization</h3>
+                <p class="text-gray-600 dark:text-gray-300">
+                    View and analyze your data with interactive charts and comprehensive displays.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Quick access section -->
+        <div class="w-full bg-white dark:bg-gray-800 rounded-xl shadow-md p-8 text-center">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Quick Access</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <a onclick="loadContent('/pages/file_upload.html','content-container')" 
+                   class="cursor-pointer p-4 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        <span class="text-gray-800 dark:text-white font-medium">File Upload</span>
+                    </div>
+                </a>
+                <a onclick="loadContent('/pages/question_show.html','content-container')" 
+                   class="cursor-pointer p-4 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        <span class="text-gray-800 dark:text-white font-medium">Question Show</span>
+                    </div>
+                </a>
+                <a onclick="loadContent('/pages/question_generate_temp.html','content-container')" 
+                   class="cursor-pointer p-4 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-gray-800 dark:text-white font-medium">Generate Questions</span>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
-    </body>
+
+    <script>
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+        
+        // We assume switchToAnotherPage is defined externally
+        // If it's not defined, we'll provide a fallback
+        if (typeof switchToAnotherPage !== 'function') {
+            function switchToAnotherPage(page) {
+                console.log('Switching to page:', page);
+                // If loadContent is available from the parent frame, use it
+                if (typeof loadContent === 'function') {
+                    loadContent('/pages/' + page, 'content-container');
+                } else {
+                    // Fallback to standard navigation if needed
+                    window.location.href = page;
+                }
+            }
+        }
+    </script>
+</body>
 </html>

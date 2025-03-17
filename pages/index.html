@@ -1,35 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base HTML - Page Switching</title>
-<!-- drop your script below, acts like python import from other .py files -->
-<script src="/js/switchPage.js"></script>
-<script src="/js/AIReponse.js"></script>
-
+    <title>LMStudio Interface</title>
+    <!-- External scripts -->
+    <script src="/js/switchPage.js"></script>
+    <script src="/js/AIReponse.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    <style>
+        /* Transition for page content */
+        .page-transition {
+            transition: opacity 0.3s ease;
+        }
+        .page-transition.loading {
+            opacity: 0.6;
+        }
+        /* For mobile navigation */
+        @media (max-width: 768px) {
+            .mobile-nav {
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 0.5rem;
+            }
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
+    <!-- Header section -->
+    <header class="bg-white dark:bg-gray-800 shadow-md">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold text-gray-800 dark:text-white">LMStudio Interface</h1>
+                </div>
+                <div id="theme-toggle" class="cursor-pointer p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <!-- Sun icon for dark mode -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:hidden" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                    </svg>
+                    <!-- Moon icon for light mode -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300 hidden dark:block" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </header>
 
-    <nav>
-        <button onclick="loadContent('/pages/index1.html','content-container')">Home</button>
-        <button onclick="loadContent('/pages/file_upload.html','content-container')">File Upload</button>
-        <button onclick="loadContent('/pages/question_show.html','content-container')">Question Show</button>
-        <button onclick="loadContent('/pages/question_generate_temp.html','content-container')">Question generation test </button>
+    <!-- Navigation section -->
+    <nav class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-2">
+            <div class="mobile-nav flex space-x-2 md:space-x-4">
+                <button 
+                    onclick="loadContentWithAnimation('/pages/index1.html','content-container')" 
+                    class="nav-btn px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
+                    data-page="home">
+                    Home
+                </button>
+                <button 
+                    onclick="loadContentWithAnimation('/pages/file_upload.html','content-container')" 
+                    class="nav-btn px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
+                    data-page="file-upload">
+                    File Upload
+                </button>
+                <button 
+                    onclick="loadContentWithAnimation('/pages/question_show.html','content-container')" 
+                    class="nav-btn px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
+                    data-page="question-show">
+                    Question Show
+                </button>
+                <button 
+                    onclick="loadContentWithAnimation('/pages/question_generate_temp.html','content-container')" 
+                    class="nav-btn px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
+                    data-page="question-generate">
+                    Question Generation
+                </button>
+            </div>
+        </div>
     </nav>
 
-    <div id="content-container">
-        <!-- Content will be loaded here -->
-        <h1>Welcome!</h1>
-        <p>Click a button above to load different content.</p>
-    </div>
+    <!-- Main content area -->
+    <main class="container mx-auto px-4 py-8">
+        <div id="content-container" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 page-transition">
+            <!-- Content will be loaded here -->
+            <div class="text-center py-8">
+                <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">Welcome!</h1>
+                <p class="text-gray-600 dark:text-gray-300">Click a navigation button above to load different content.</p>
+            </div>
+        </div>
+    </main>
 
+    <!-- Footer section -->
+    <footer class="bg-white dark:bg-gray-800 shadow-inner mt-auto">
+        <div class="container mx-auto px-4 py-4">
+            <p class="text-center text-gray-600 dark:text-gray-400 text-sm">LMStudio Interface - Created for AI text generation</p>
+        </div>
+    </footer>
 
-</body>
     <script>
+        // Dark mode detection and toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        // Check for dark mode preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        
+        // Listen for changes in color scheme preference
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+        
+        // Toggle dark/light mode
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+        });
+
+        // Enhanced content loading with animation
+        function loadContentWithAnimation(url, targetId) {
+            const contentContainer = document.getElementById(targetId);
+            
+            // Add loading state
+            contentContainer.classList.add('loading');
+            
+            // Update active navigation button
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-white');
+                btn.classList.add('text-gray-700', 'dark:text-gray-200');
+            });
+            
+            // Get the button that was clicked based on the URL
+            const pageKey = url.split('/').pop().split('.')[0];
+            
+            // Use the original loadContent function
+            loadContent(url, targetId);
+            
+            // Remove loading state after a short delay
+            setTimeout(() => {
+                contentContainer.classList.remove('loading');
+            }, 300);
+        }
+
+        // Initialize the page on load
         window.onload = function() {
-            loadContent('index1.html', 'content-container');
+            loadContentWithAnimation('/pages/index1.html', 'content-container');
         };
     </script>
-    </html>
+</body>
+</html>
