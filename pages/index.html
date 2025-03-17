@@ -68,7 +68,7 @@
             <div class="mobile-nav flex space-x-2 md:space-x-4">
                 <button 
                     onclick="loadContentWithAnimation('/pages/index1.html','content-container')" 
-                    class="nav-btn px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
+                    class="nav-btn px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 active-nav"
                     data-page="home">
                     Home
                 </button>
@@ -135,19 +135,6 @@
             document.documentElement.classList.toggle('dark');
         });
 
-        // Define the loadContent function
-        function loadContent(url, targetId) {
-            fetch(url)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById(targetId).innerHTML = html;
-                })
-                .catch(error => {
-                    console.error('Error loading content:', error);
-                    document.getElementById(targetId).innerHTML = '<p>Error loading content. Please try again later.</p>';
-                });
-        }
-
         // Enhanced content loading with animation
         function loadContentWithAnimation(url, targetId) {
             const contentContainer = document.getElementById(targetId);
@@ -164,6 +151,9 @@
             
             // Get the button that was clicked based on the URL
             const pageKey = url.split('/').pop().split('.')[0];
+            const activeButton = document.querySelector(`[data-page="${pageKey}"]`) || 
+                               document.querySelector(`[data-page="home"]`);
+            
             
             // Use the original loadContent function
             loadContent(url, targetId);
