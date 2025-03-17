@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Upload</title>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script> -->
 </head>
 <body>
     <script src="/js/uploadFileView.js"></script>
     <script src="/js/loadFile.js"></script>
 
-    <h1>Upload a File</h1>
+    <h1>Upload a File (.txt/.docx/.pdf/.csv)</h1>
     <form id="uploadForm" enctype="multipart/form-data">
         <input type="file" name="file" id="fileInput" required>
         <button type="submit">Upload</button>
@@ -20,5 +21,8 @@
 
     <h2>Uploaded File Content</h2>
     <pre id="fileContent"></pre>
+    
+    <!-- <h2>PDF Viewer</h2>
+    <canvas id="pdfViewer"></canvas> -->
 </body>
 </html>

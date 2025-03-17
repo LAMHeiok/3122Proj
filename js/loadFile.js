@@ -24,9 +24,3 @@ function loadUploadedFiles() {
         })
         .catch(error => console.error('Error loading uploaded files:', error));
 }
-
-// Load the uploaded files when the DOM content is fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-    loadUploadedFiles();
-    setInterval(loadUploadedFiles, 5000); // Refresh the list every 5 seconds
-});

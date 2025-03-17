@@ -26,6 +26,11 @@ async function loadContent(url, containerId) {
             }
             document.body.appendChild(newScript);
         });
+
+        // Check if the loaded content is file_upload.html and call loadUploadedFiles()
+        if (url.includes('file_upload.html')) {
+            loadUploadedFiles();
+        }
     } catch (error) {
         console.error('Error loading content:', error);
     }
