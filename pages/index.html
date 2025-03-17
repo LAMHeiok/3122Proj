@@ -135,6 +135,19 @@
             document.documentElement.classList.toggle('dark');
         });
 
+        // Define the loadContent function
+        function loadContent(url, targetId) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById(targetId).innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error loading content:', error);
+                    document.getElementById(targetId).innerHTML = '<p>Error loading content. Please try again later.</p>';
+                });
+        }
+
         // Enhanced content loading with animation
         function loadContentWithAnimation(url, targetId) {
             const contentContainer = document.getElementById(targetId);
