@@ -2,18 +2,10 @@
 
 Mar17: Added functions to upload/read files
 
-Functions:
-- Able to upload .txt/.docx/.csv files
-- Can read .docx file as pure text and saves as .txt file
-
-Problems:
-- Unable to load uploaded files when clicked on "File Upload" button
-- Cannot handle other types of files (If .png file is uploaded, it will cause error. I will fix it later)
-
 Please install Node.js, LMStudio
 
 ```
-npm install @lmstudio/sdk, cors, docx, express, formidable, mammoth
+npm install @lmstudio/sdk, cors, docx, express, formidable, mammoth, pdf-parse
 ```
 
 Version for reference:
@@ -25,7 +17,8 @@ Version for reference:
     "docx": "^9.3.0",
     "express": "^4.21.2",
     "formidable": "^2.1.2",
-    "mammoth": "^1.9.0"
+    "mammoth": "^1.9.0",
+    "pdf-parse": "^1.1.1"
   }
 }
 ```
