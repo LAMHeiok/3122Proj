@@ -4,7 +4,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
     const fileInput = document.getElementById('fileInput');
     formData.append('file', fileInput.files[0]);
 
-    fetch('/uploads', {
+    fetch('http://localhost:3000/uploads', {
         method: 'POST',
         body: formData
     })

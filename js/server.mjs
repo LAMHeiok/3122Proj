@@ -119,6 +119,7 @@ app.get('/list-uploads', (req, res) => {
     fs.readdir(uploadDir, (err, files) => {
         if (err) {
             res.status(500).send(err);
+            console.log('list upload only error')
             return;
         }
         res.json(files);
@@ -131,6 +132,7 @@ app.get('/uploads/:filename', async (req, res) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
             res.status(500).send(err);
+            console.log("uploads/filename error: ", filePath)
             return;
         }
         res.send(data);

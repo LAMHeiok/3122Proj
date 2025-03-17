@@ -1,7 +1,8 @@
 function loadUploadedFiles() {
-    fetch('/list-uploads')
+    fetch('http://localhost:3000/list-uploads')
         .then(response => response.json())
         .then(files => {
+            console.log(files)
             const fileList = document.getElementById('fileList');
             fileList.innerHTML = '';
             files.forEach(file => {
@@ -10,7 +11,7 @@ function loadUploadedFiles() {
                 const button = document.createElement('button');
                 button.textContent = 'Select';
                 button.addEventListener('click', () => {
-                    fetch(`/uploads/${file}`)
+                    fetch(`http://localhost:3000/uploads/${file}`)
                         .then(response => response.text())
                         .then(data => {
                             document.getElementById('fileContent').textContent = data;
