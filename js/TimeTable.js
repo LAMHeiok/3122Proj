@@ -11,10 +11,6 @@ const timeConfig = {
     intervalMinutes: 30
 };
 
-// Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
-    initializeApp();
-});
 
 // Dark mode detection and toggle
 function initializeDarkMode() {
