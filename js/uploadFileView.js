@@ -35,6 +35,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
             }
             renderPDF(bytes.buffer);
         } else {
+            showTextContent();
             document.getElementById('fileContent').textContent = data;
         }
         loadUploadedFiles();

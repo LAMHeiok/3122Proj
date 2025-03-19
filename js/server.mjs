@@ -92,6 +92,11 @@ app.post('/uploads', (req, res) => {
                     const buffer = readFileSync(newPath);
                     const result = await mammoth.extractRawText({ buffer });
                     const text = result.value;
+                    // save the text as .txt file
+                    const txtPath = newPath.replace('.docx', '.txt');
+                    fs.writeFileSync(txtPath, text);
+                    // remove .docx file
+                    fs.unlinkSync(newPath);
                     res.send(text);
                 } catch (error) {
                     res.status(500).send(error);
