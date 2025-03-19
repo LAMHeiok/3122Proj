@@ -5,7 +5,13 @@ Mar19: Update file list reload and add PDF viewer (.docx not done)
 Please install Node.js, LMStudio
 
 ```
-npm install @lmstudio/sdk, cors, docx, express, formidable, mammoth, pdf-parse
+npm install @lmstudio/sdk
+npm install cors
+npm install docx
+npm install express
+npm install formidable
+npm install mammoth
+npm install pdf-parse
 ```
 
 Version for reference:
@@ -15,11 +21,17 @@ Version for reference:
     "@lmstudio/sdk": "^1.0.1",
     "cors": "^2.8.5",
     "docx": "^9.3.0",
+    "docx-pdf": "^0.0.1",
     "express": "^4.21.2",
     "formidable": "^2.1.2",
     "mammoth": "^1.9.0",
     "package": "^1.0.1",
     "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.0.0",
+    "postcss": "^8.0.0",
+    "tailwindcss": "^3.0.0"
   }
 }
 ```

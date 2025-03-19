@@ -7,10 +7,27 @@ function loadUploadedFiles() {
             fileList.innerHTML = '';
             files.forEach(file => {
                 const listItem = document.createElement('li');
-                listItem.textContent = file;
+                listItem.className = 'flex items-center justify-between p-2';
+
+                // Create filename span with dots
+                const fileNameContainer = document.createElement('div');
+                fileNameContainer.className = 'flex-1 flex items-center';
+                
+                const fileName = document.createElement('span');
+                fileName.textContent = file;
+                fileName.className = 'flex-shrink-0';
+                
+                const dots = document.createElement('div');
+                dots.className = 'flex-1 mx-2 border-b border-dotted border-gray-300 dark:border-gray-600';
+                
+                fileNameContainer.appendChild(fileName);
+                fileNameContainer.appendChild(dots);
+
+                // Create button
                 const button = document.createElement('button');
                 button.textContent = 'Select';
-                button.addEventListener('click', async () => {  // Changed to async
+                button.className = 'flex-shrink-0 bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 ml-2';
+                button.addEventListener('click', async () => {
                     console.log('Requesting file:', file);
                     const fileExtension = file.split('.').pop().toLowerCase();
                     
@@ -25,7 +42,8 @@ function loadUploadedFiles() {
                             data = await response.arrayBuffer();
                         } else if (fileExtension === 'docx') {
                             console.log('Detected DOCX file');
-                            data = await response.json(); // Changed to json()
+                            // Changed to text() since server will send converted text
+                            data = await response.text();
                         } else if (contentType && contentType.includes('application/json')) {
                             console.log('Detected JSON response');
                             data = await response.json();
@@ -33,7 +51,7 @@ function loadUploadedFiles() {
                             console.log('Detected text response');
                             data = await response.text();
                         }
-
+            
                         console.log('Received data:', data);
                         console.log('Received data type:', typeof data);
                         
@@ -44,9 +62,8 @@ function loadUploadedFiles() {
                         } else if (fileExtension === 'docx') {
                             console.log('Processing DOCX content');
                             showTextContent();
-                            // Extract text from the JSON response
-                            const textContent = data.isDocx ? data.text : data;
-                            document.getElementById('fileContent').textContent = textContent;
+                            // Display the text directly since server has already converted it
+                            document.getElementById('fileContent').textContent = data;
                         } else {
                             console.log('Processing text content');
                             showTextContent();
@@ -57,6 +74,7 @@ function loadUploadedFiles() {
                         document.getElementById('fileContent').textContent = `Error loading file: ${error.message}`;
                     }
                 });
+                listItem.appendChild(fileNameContainer);
                 listItem.appendChild(button);
                 fileList.appendChild(listItem);
             });

@@ -105,10 +105,9 @@
                 Uploaded Files
             </h2>
             
-            <div class="border dark:border-gray-700 rounded-md overflow-hidden">
-                <ul id="fileList" class="divide-y divide-gray-200 dark:divide-gray-700 max-h-48 overflow-y-auto">
-                    <!-- Files will be listed here -->
-                    <li class="p-4 text-gray-500 dark:text-gray-400 text-center italic">No files uploaded yet</li>
+            <div class="border dark:border-gray-700 rounded-md">
+                <ul id="fileList" class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <li class="p-2 text-gray-500 dark:text-gray-400 text-center italic">No files uploaded yet</li>
                 </ul>
             </div>
         </div>
@@ -150,11 +149,10 @@
                 </h2>
                 
                 <div class="relative">
-                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-md overflow-auto max-h-96">
-                        <canvas id="pdfViewer" class="mx-auto"></canvas>
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-md overflow-auto max-h-[80vh]">
+                        <div id="pdfViewer" class="min-h-[200px]"></div>
                     </div>
                     
-                    <!-- Loading indicator for PDF -->
                     <div id="pdfLoading" class="hidden absolute inset-0 bg-gray-100 dark:bg-gray-700 bg-opacity-75 dark:bg-opacity-75 flex items-center justify-center">
                         <div class="animate-pulse flex items-center">
                             <svg class="animate-spin h-5 w-5 text-primary mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
