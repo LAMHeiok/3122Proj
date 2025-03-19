@@ -153,6 +153,12 @@ async function loadContent(url, containerId, options = {}) {
         const contentLoadedEvent = new CustomEvent('contentLoaded', {
             detail: { containerId, url }
         });
+
+        // Check if the loaded content is file_upload.html and call loadUploadedFiles()
+        if (url.includes('file_upload.html')) {
+            loadUploadedFiles();
+        }
+        
         document.dispatchEvent(contentLoadedEvent);
 
     } catch (error) {

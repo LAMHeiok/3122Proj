@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { readFileSync } from 'fs';
 import mammoth from 'mammoth';
+import pdfParse from 'pdf-parse';
 
 // Define __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -85,16 +86,22 @@ app.post('/uploads', (req, res) => {
                 return;
             }
 
-            // Extract text from .docx file and save as .txt file
+            // Extract text from .docx file
             if (path.extname(newPath) === '.docx') {
                 try {
                     const buffer = readFileSync(newPath);
                     const result = await mammoth.extractRawText({ buffer });
                     const text = result.value;
-                    const txtPath = newPath.replace('.docx', '.txt');
-                    fs.writeFileSync(txtPath, text);
-                    // remove the .docx file
-                    fs.unlinkSync(newPath);
+                    res.send(text);
+                } catch (error) {
+                    res.status(500).send(error);
+                }
+            } else if (path.extname(newPath) === '.pdf') {
+                // Extract text from .pdf file
+                try {
+                    const dataBuffer = readFileSync(newPath);
+                    const data = await pdfParse(dataBuffer);
+                    const text = data.text;
                     res.send(text);
                 } catch (error) {
                     res.status(500).send(error);
@@ -123,19 +130,6 @@ app.get('/list-uploads', (req, res) => {
             return;
         }
         res.json(files);
-    });
-});
-
-// Route to get the content of a specific file
-app.get('/uploads/:filename', async (req, res) => {
-    const filePath = path.join(__dirname, '../uploads', req.params.filename);
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            res.status(500).send(err);
-            console.log("uploads/filename error: ", filePath)
-            return;
-        }
-        res.send(data);
     });
 });
 

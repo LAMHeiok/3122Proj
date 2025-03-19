@@ -1,19 +1,11 @@
 # Requirements
 
-Mar17: Added functions to upload/read files
-
-Functions:
-- Able to upload .txt/.docx/.csv files
-- Can read .docx file as pure text and saves as .txt file
-
-Problems:
-- Unable to load uploaded files when clicked on "File Upload" button
-- Cannot handle other types of files (If .png file is uploaded, it will cause error. I will fix it later)
+Mar19: Update file list reload and add PDF viewer (.docx not done)
 
 Please install Node.js, LMStudio
 
 ```
-npm install @lmstudio/sdk, cors, docx, express, formidable, mammoth
+npm install @lmstudio/sdk, cors, docx, express, formidable, mammoth, pdf-parse
 ```
 
 Version for reference:
@@ -25,7 +17,9 @@ Version for reference:
     "docx": "^9.3.0",
     "express": "^4.21.2",
     "formidable": "^2.1.2",
-    "mammoth": "^1.9.0"
+    "mammoth": "^1.9.0",
+    "package": "^1.0.1",
+    "pdf-parse": "^1.1.1"
   }
 }
 ```
@@ -46,3 +40,5 @@ GetResponse is called!
 ```
 
 Inside F12/Network, you should see `generate` where the actual response is `response/content`, I have a cleaner to remove any tag or `\n` 
+
+If you encounter bug, go to 3122Proj\node_modules\pdf-parse\index.js, remove testing purpose code.
