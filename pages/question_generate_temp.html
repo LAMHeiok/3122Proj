@@ -118,7 +118,7 @@
                 
                 try {
                     // Format the prompt same as the original code
-                    const uprompt = "Please give me detail information for: " + promptText;
+                    const uprompt = promptText;
                     
                     // Get response using the existing AIResponse method
                     const responseFromLLM = await AIResponse.getResponse(uprompt);
@@ -128,13 +128,12 @@
                     
                     // Try to save the response, but don't block UI if it fails
                     try {
-                        await fetch('/saveResponse', {
+                        await fetch('http://localhost:3000/saveResponse', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
                             },
                             body: JSON.stringify({ 
-                                prompt: uprompt, 
                                 response: responseFromLLM 
                             })
                         });

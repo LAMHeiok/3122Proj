@@ -20,8 +20,8 @@ var AIResponse = window.AIResponse || (() => {
                 throw new Error('Network response was not ok');
             }
 
-            const data = await response.json();
-            const cleanedText = cleanContent(data.response.content);
+            const data = await response.json(); console.log(data)
+            const cleanedText = cleanContent(data.response.choices[0].message.content);
             return cleanedText;
         } catch (error) {
             console.error('Error:', error);
@@ -31,7 +31,11 @@ var AIResponse = window.AIResponse || (() => {
 
     // Helper function to clean the response content
     const cleanContent = (responseText) => {
-        responseText = responseText.replace(/\n/g, '').replaceAll(/<\/?[^>]+(>|$)/g, ""); // Remove newline characters
+        responseText = responseText
+    .replace(/\n/g, '') // Remove newlines
+    .replaceAll(/<\/?[^>]+(>|$)/g, '') // Remove HTML tags
+    .replaceAll(/```(json)?/g, '') // Remove starting backticks for code blocks
+    .replaceAll(/```/g, ''); // Remove ending backticks
         return responseText;
     }
 

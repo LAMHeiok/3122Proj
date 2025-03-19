@@ -4,11 +4,13 @@ import cors from 'cors'; // Import the cors package
 import formidable from 'formidable';
 import path from 'path';
 import fs from 'fs';
+import fsp from 'fs/promises'
 import { fileURLToPath } from 'url';
 import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { readFileSync } from 'fs';
 import mammoth from 'mammoth';
 import pdfParse from 'pdf-parse';
+import OpenAI from "openai"
 
 // Define __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -23,11 +25,24 @@ app.use(cors());
 // Middleware to parse JSON requests
 app.use(express.json());
 
-// Initialize LMStudioClient
-const client = new LMStudioClient();
+// Initialize openAi
+
+// Read the TOML file
+let token;
+let client;
+try {
+    const o = await createOpenAIClient(); // Await the result
+    token =o.token;
+    client=o.client;
+    console.log("Token from outside:", token); // Now you can access the token
+    // Now you can use the 'client' object
+} catch (error) {
+    console.error("Failed to create OpenAI client:", error);
+}
 
 // Serve static files from the project directory
 app.use(express.static(path.join(__dirname, '../')));
+app.use(express.json());
 
 // Serve the HTML file
 app.get('/', (req, res) => {
@@ -43,11 +58,16 @@ app.post('/generate', async (req, res) => {
             return res.status(400).json({ error: 'Prompt is required' });
         }
 
-        // Load the model
-        const model = await client.llm.model("llama-3.2-1b-instruct".toLowerCase());
-
-        // Generate a response
-        const result = await model.respond(prompt);
+        const result = await client.chat.completions.create({
+    messages: [
+      { role:"system", content: `generate questions in format of json, questionId cummulates and correctAnswer equals to index in optoins only provide the code itself. template: { "exerciseId": 10000, "exerciseTitle": "Exercise 1: ", "sections": [ { "sectionId": 11000, "sectionTitle": "A.: ", "questions": [ { "questionId": 11001, "questionText": "This is a test MC question", "correctAnswer": 2, "questionType": 1, "answerShow": "", "options": [ "yes", "no", "ok", "not ok" ] } ] }, { "sectionId": 12000, "sectionTitle": "B. No Thank you, no fankiu", "questions": [ { "questionId": 12001, "questionText": "This is a test short/long question: should people always say thank you?", "correctAnswer": "Yes, they should./Yes, they should always say thank you.", "questionType": 2, "answerShow": "Yes, they should" } ] } ] }"`},
+      { role:"user", content: prompt }
+    ],
+    model: "gpt-4o-mini",
+    temperature: 0.5,
+    max_tokens: 4096,
+    top_p: 1
+  });
 
         // Send the response back to the client
         res.json({ response: result });
@@ -57,6 +77,22 @@ app.post('/generate', async (req, res) => {
     }
 });
 
+app.post('/saveResponse', async (req, res) => {
+    const filePath = 'data.json'; // Define file path
+    try {
+        const responseFromLLM = req.body.response; // Extract the response from the request body
+        if (!responseFromLLM) {
+            return res.status(400).send('Missing response data'); // Handle missing data
+        }
+
+        await saveJsonToFile(responseFromLLM, filePath); // Pass the correct response
+
+        res.status(200).send('Response saved successfully'); // Send success response
+    } catch (error) {
+        console.error('Error in /saveResponse route:', error);
+        res.status(500).send('Error saving response'); // Send error response
+    }
+});
 // Route to handle file upload
 app.post('/uploads', (req, res) => {
     const form = new formidable.IncomingForm();
@@ -142,3 +178,69 @@ app.get('/list-uploads', (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+async function createOpenAIClient() {
+    let token = "";
+
+    try {
+        const data = await fsp.readFile('credentials', 'utf8');
+        const regex = /GITHUB_API_KEY\s*=\s*"([^"]+)"/;
+        const match = data.match(regex);
+
+        if (match) {
+            token = match[1];
+            console.log('GitHub API Key:', token);
+        } else {
+            console.log('GITHUB_API_KEY not found.');
+            throw new Error('GITHUB_API_KEY not found.'); // Throw an error to be caught
+        }
+
+        console.log("Token is:", token);
+
+        const client = new OpenAI({
+            baseURL: "https://models.inference.ai.azure.com",
+            apiKey: token,
+        });
+        console.log("OpenAI client created successfully.");
+
+        return { token: token, client: client }; // Return both token and client
+    } catch (err) {
+        console.error('Error reading the file or creating OpenAI client:', err);
+        throw err; // Re-throw the error to be handled by the caller
+    }
+}
+async function saveJsonToFile(jsonString, filePath) {
+    let longerPath = `questiongenerated/${filePath}`
+    let newFilePath = longerPath;
+    let counter = 1;
+
+    try {
+        // Check if the file exists
+        await fsp.access(newFilePath); // Throws an error if the file doesn't exist
+
+        // If the file exists, generate a new filename
+        const { dir, name, ext } = path.parse(longerPath);
+        while (true) {
+            newFilePath = path.join(dir, `${name}_${counter}${ext}`);
+            try {
+                await fsp.access(newFilePath); // Check if the new file exists
+                counter++;
+            } catch (err) {
+                // File doesn't exist, so we can use this path
+                break;
+            }
+        }
+    } catch (err) {
+        // File doesn't exist, so we can use the original path
+    }
+
+    try {
+        const jsonObject = JSON.parse(jsonString);
+        const formattedJsonString = JSON.stringify(jsonObject, null, 2);
+        await fsp.writeFile(newFilePath, formattedJsonString, 'utf8');
+        console.log(`JSON data saved to ${newFilePath}`);
+    } catch (error) {
+        console.error('Error saving JSON to file:', error);
+        throw error; // Re-throw the error so the route can handle it
+    }
+}

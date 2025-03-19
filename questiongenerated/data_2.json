@@ -1,0 +1,38 @@
+{
+  "exerciseId": 10000,
+  "exerciseTitle": "Exercise 1: Sleeping Questions",
+  "sections": [
+    {
+      "sectionId": 11000,
+      "sectionTitle": "A.: Sleep Quality",
+      "questions": [
+        {
+          "questionId": 11001,
+          "questionText": "What is the recommended amount of sleep for adults?",
+          "correctAnswer": 1,
+          "questionType": 1,
+          "answerShow": "",
+          "options": [
+            "6-7 hours",
+            "7-9 hours",
+            "9-10 hours",
+            "5-6 hours"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": 12000,
+      "sectionTitle": "B.: Sleep Habits",
+      "questions": [
+        {
+          "questionId": 12001,
+          "questionText": "What are some benefits of a good sleep routine?",
+          "correctAnswer": "Improved mood, better concentration, enhanced health.",
+          "questionType": 2,
+          "answerShow": "Good sleep routine leads to many benefits."
+        }
+      ]
+    }
+  ]
+}

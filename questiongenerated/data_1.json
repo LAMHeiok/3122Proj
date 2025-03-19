@@ -1,0 +1,51 @@
+{
+  "exerciseId": 10000,
+  "exerciseTitle": "Exercise 1: Cooking Questions",
+  "sections": [
+    {
+      "sectionId": 11000,
+      "sectionTitle": "A.: Cooking Basics",
+      "questions": [
+        {
+          "questionId": 11001,
+          "questionText": "What is the main ingredient in a traditional risotto?",
+          "correctAnswer": 1,
+          "questionType": 1,
+          "answerShow": "",
+          "options": [
+            "Rice",
+            "Pasta",
+            "Quinoa",
+            "Barley"
+          ]
+        },
+        {
+          "questionId": 11002,
+          "questionText": "Which cooking method involves submerging food in hot oil?",
+          "correctAnswer": 0,
+          "questionType": 1,
+          "answerShow": "",
+          "options": [
+            "Frying",
+            "Boiling",
+            "Steaming",
+            "Baking"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": 12000,
+      "sectionTitle": "B. Cooking Techniques",
+      "questions": [
+        {
+          "questionId": 12001,
+          "questionText": "What is the purpose of marinating meat before cooking?",
+          "correctAnswer": "To enhance flavor and tenderness.",
+          "questionType": 2,
+          "answerShow": "Marinating enhances flavor."
+        }
+      ]
+    }
+  ]
+}

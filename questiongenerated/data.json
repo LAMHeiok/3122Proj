@@ -1,0 +1,38 @@
+{
+  "exerciseId": 10000,
+  "exerciseTitle": "Exercise 1: Cooking Questions",
+  "sections": [
+    {
+      "sectionId": 11000,
+      "sectionTitle": "A.: Cooking Techniques",
+      "questions": [
+        {
+          "questionId": 11001,
+          "questionText": "What is the main purpose of blanching vegetables?",
+          "correctAnswer": 1,
+          "questionType": 1,
+          "answerShow": "",
+          "options": [
+            "To enhance color and flavor",
+            "To soften them before freezing",
+            "To make them easier to peel",
+            "To cook them completely"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": 12000,
+      "sectionTitle": "B. Cooking Methods",
+      "questions": [
+        {
+          "questionId": 12001,
+          "questionText": "Explain the difference between baking and roasting.",
+          "correctAnswer": "Baking is typically done at lower temperatures and is used for breads and pastries, while roasting is done at higher temperatures and is often used for meats and vegetables.",
+          "questionType": 2,
+          "answerShow": "Baking is for breads; roasting is for meats."
+        }
+      ]
+    }
+  ]
+}
