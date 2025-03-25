@@ -38,19 +38,65 @@
         .animate-pulse {
             animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
+        
+        .file-input-container {
+        position: relative;
+        min-height: 80px;
+        border: 2px dashed #e5e7eb;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f9fafb;
+        }
+
+        .drag-active {
+            border-color: #5D5CDE;
+            background-color: rgba(93, 92, 222, 0.05);
+        }
+
+        .drag-text {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.25rem;
+            color: #5D5CDE;
+            text-align: center;
+            width: 100%;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .drag-active .drag-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 1;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translate(-50%, -50%); }
+            50% { transform: translate(-50%, -60%); }
+        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
     <!-- Original scripts preserved -->
     <script src="/js/uploadFileView.js"></script>
     <script src="/js/loadFile.js"></script>
+    <script src="/js/fileAnimation.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 
     <div class="max-w-4xl mx-auto p-4">
         <!-- Header section -->
         <div class="mb-8">
             <h1 class="text-2xl md:text-3xl font-bold mb-2">Upload a File</h1>
-            <p class="text-gray-600 dark:text-gray-400">Upload your files to view and process their content</p>
+            <p class="text-gray-600 dark:text-gray-400">Upload your files to view and process their content (Limit: 20MB)</p>
         </div>
 
         <!-- Upload form -->
@@ -60,16 +106,22 @@
                     <label for="fileInput" class="block font-medium text-gray-700 dark:text-gray-300 mb-2">Select file to upload</label>
                     
                     <div class="flex items-center space-x-3">
-                        <div class="relative flex-grow">
+                        <div class="relative flex-grow file-input-container" id="dropZone">
                             <input type="file" name="file" id="fileInput" required
-                                class="custom-file-input absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer"
-                                onchange="updateFileLabel(this)">
+                                class="custom-file-input absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
                             
-                            <div class="w-full px-4 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 flex items-center">
+                            <div class="default-content w-full px-4 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                                 </svg>
                                 <span id="fileLabel" class="text-gray-500 dark:text-gray-400 truncate">No file selected</span>
+                            </div>
+                            
+                            <div class="drag-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-2 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                </svg>
+                                Drop your file here
                             </div>
                         </div>
                         

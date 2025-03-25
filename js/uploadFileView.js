@@ -3,6 +3,13 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
     const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
 
+    // Add file size check (20MB = 20 * 1024 * 1024 bytes)
+    const maxSize = 20 * 1024 * 1024; // 20MB in bytes
+    if (file.size > maxSize) {
+        alert('File size exceeds 20MB limit. Please choose a smaller file.');
+        return;
+    }
+
     // Check if the file is a text file, a .docx file, or a .pdf file
     const allowedExtensions = ['text/plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf'];
     if (!allowedExtensions.includes(file.type)) {
