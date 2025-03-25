@@ -34,6 +34,12 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
                 bytes[i] = binaryString.charCodeAt(i);
             }
             renderPDF(bytes.buffer);
+        } else if (file.type === 'application/pdf') {
+            // If the file is PDF but not returned as JSON
+            fetch(URL.createObjectURL(file))
+                .then(response => response.arrayBuffer())
+                .then(buffer => renderPDF(buffer))
+                .catch(error => console.error('Error loading PDF:', error));
         } else {
             showTextContent();
             document.getElementById('fileContent').textContent = data;

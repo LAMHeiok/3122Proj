@@ -132,7 +132,7 @@ app.post('/uploads', (req, res) => {
                     const txtPath = newPath.replace('.docx', '.txt');
                     fs.writeFileSync(txtPath, text);
                     // remove .docx file
-                    fs.unlinkSync(newPath);
+                    //fs.unlinkSync(newPath);
                     res.send(text);
                 } catch (error) {
                     res.status(500).send(error);
@@ -170,7 +170,19 @@ app.get('/list-uploads', (req, res) => {
             console.log('list upload only error')
             return;
         }
-        res.json(files);
+        
+        // Filter out .txt files that have corresponding .docx or .pdf files
+        const filteredFiles = files.filter(file => {
+            if (path.extname(file) === '.txt') {
+                const baseName = path.basename(file, '.txt');
+                const hasDocx = files.includes(`${baseName}.docx`);
+                const hasPdf = files.includes(`${baseName}.pdf`);
+                return !(hasDocx || hasPdf);
+            }
+            return true;
+        });
+
+        res.json(filteredFiles);
     });
 });
 

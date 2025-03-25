@@ -4,7 +4,16 @@ function loadUploadedFiles() {
         .then(files => {
             console.log('Available files:', files);
             const fileList = document.getElementById('fileList');
+            
+            // Clear existing list
             fileList.innerHTML = '';
+            
+            // Check if files array is empty
+            if (!files || files.length === 0) {
+                fileList.innerHTML = '<li class="p-4 text-gray-500 dark:text-gray-400 text-center italic">No files uploaded yet</li>';
+                return;
+            }
+            
             files.forEach(file => {
                 const listItem = document.createElement('li');
                 listItem.className = 'flex items-center justify-between p-2';
@@ -32,6 +41,9 @@ function loadUploadedFiles() {
                     const fileExtension = file.split('.').pop().toLowerCase();
                     
                     try {
+                        if (fileExtension === 'docx') {
+                            file = file.replace('.docx', '.txt');
+                        }
                         const response = await fetch(`http://localhost:3000/uploads/${file}`);
                         console.log('Response headers:', response.headers);
                         const contentType = response.headers.get('content-type');
@@ -42,7 +54,6 @@ function loadUploadedFiles() {
                             data = await response.arrayBuffer();
                         } else if (fileExtension === 'docx') {
                             console.log('Detected DOCX file');
-                            // Changed to text() since server will send converted text
                             data = await response.text();
                         } else if (contentType && contentType.includes('application/json')) {
                             console.log('Detected JSON response');
