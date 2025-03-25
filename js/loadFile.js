@@ -1,4 +1,4 @@
-function loadUploadedFiles() {
+async function loadUploadedFiles() {
     fetch('http://localhost:3000/list-uploads')
         .then(response => response.json())
         .then(files => {
@@ -97,12 +97,12 @@ function loadUploadedFiles() {
         });
 }
 
-function showTextContent() {
+async function showTextContent() {
     document.getElementById('textContent').classList.remove('hidden');
     document.getElementById('pdfContent').classList.add('hidden');
 }
 
-function showPdfContent() {
+async function showPdfContent() {
     document.getElementById('textContent').classList.add('hidden');
     document.getElementById('pdfContent').classList.remove('hidden');
 }

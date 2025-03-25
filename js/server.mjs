@@ -161,6 +161,35 @@ app.post('/uploads', (req, res) => {
     });
 });
 
+app.get('/retrieve-file', async (req, res) => {
+    const { filePath } = req.query; // Assume filePath is passed as a query parameter
+
+    if (!filePath) {
+        return res.status(400).json({ error: 'File path is required' });
+    }
+
+    try {
+        const content = await retrieveFileContent(filePath);
+        if (content === null) {
+            return res.status(404).json({ error: 'File not found' }); // Handle file not found
+        }
+        res.status(200).json({ content }); // Return the file content
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to retrieve file content' });
+    }
+});
+
+app.get('/list-questiongenerated', async (req, res) => {
+    const folderPath = path.join(__dirname, '../questiongenerated');
+
+    try {
+        const files = await listFolderContents(folderPath);
+        res.json(files);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to list folder contents' });
+    }
+});
+
 // Route to list uploaded files
 app.get('/list-uploads', (req, res) => {
     const uploadDir = path.join(__dirname, '../uploads');
@@ -254,5 +283,34 @@ async function saveJsonToFile(jsonString, filePath) {
     } catch (error) {
         console.error('Error saving JSON to file:', error);
         throw error; // Re-throw the error so the route can handle it
+    }
+}
+
+async function listFolderContents(folderPath) {
+    try {
+        const files = await fsp.readdir(folderPath);
+        return files; // Returns an array of file names
+    } catch (err) {
+        console.error(`Error reading folder contents: ${err.message}`);
+        throw err; // Re-throw the error for handling
+    }
+}
+
+async function retrieveFileContent(filePath) {
+    try {
+        // Check if the file exists
+        await fsp.access(filePath);
+
+        // Read the content of the file
+        const content = await fsp.readFile(filePath, 'utf8');
+        return content; // Return the content
+    } catch (err) {
+        if (err.code === 'ENOENT') {
+            // File does not exist
+            return null; // Return null if the file does not exist
+        } else {
+            console.error(`Error retrieving file: ${err.message}`);
+            throw err; // Re-throw the error for handling
+        }
     }
 }

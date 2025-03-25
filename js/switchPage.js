@@ -169,9 +169,15 @@ async function loadContent(url, containerId, options = {}) {
             <div class="error-message">
                 <h3>Error Loading Content</h3>
                 <p>${error.message}</p>
-                <button onclick="loadContent('${url}', '${containerId}')">Try Again</button>
             </div>
         `;
+    //     container.innerHTML = `
+    //     <div class="error-message">
+    //         <h3>Error Loading Content</h3>
+    //         <p>${error.message}</p>
+    //         <button onclick="loadContent('${url}', '${containerId}')">Try Again</button>
+    //     </div>
+    // `;
         
         if (showLoading) container.classList.remove('loading');
         
@@ -183,48 +189,48 @@ async function loadContent(url, containerId, options = {}) {
 }
 
 // Enhanced version for handling nav buttons
-document.addEventListener('DOMContentLoaded', () => {
-    const navButtons = document.querySelectorAll('nav button');
+// document.addEventListener('DOMContentLoaded', () => {
+//     const navButtons = document.querySelectorAll('nav button');
 
-    navButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Check for data-page attribute first, then fall back to onclick attribute
-            const pageUrl = button.dataset.page || button.getAttribute('onclick')?.match(/loadContent\(['"](.+?)['"]/)?.[1];
+//     navButtons.forEach(button => {
+//         button.addEventListener('click', () => {
+//             // Check for data-page attribute first, then fall back to onclick attribute
+//             const pageUrl = button.dataset.page || button.getAttribute('onclick')?.match(/loadContent\(['"](.+?)['"]/)?.[1];
             
-            if (pageUrl) {
-                // Get the target container if specified
-                const container = button.dataset.container || 'content-container';
+//             if (pageUrl) {
+//                 // Get the target container if specified
+//                 const container = button.dataset.container || 'content-container';
                 
-                // Set active state on the clicked button
-                navButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
+//                 // Set active state on the clicked button
+//                 navButtons.forEach(btn => btn.classList.remove('active'));
+//                 button.classList.add('active');
                 
-                // Load the content
-                loadContent(pageUrl, container, {
-                    showLoading: true,
-                    onSuccess: (container) => {
-                        // Scroll to top of container
-                        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                });
-            }
-        });
-    });
+//                 // Load the content
+//                 loadContent(pageUrl, container, {
+//                     showLoading: true,
+//                     onSuccess: (container) => {
+//                         // Scroll to top of container
+//                         container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+//                     }
+//                 });
+//             }
+//         });
+//     });
     
-    // Check for default page to load from URL hash
-    const hashPage = window.location.hash.substring(1);
-    if (hashPage) {
-        const pageUrl = hashPage.includes('.html') ? hashPage : `${hashPage}.html`;
-        loadContent(pageUrl, 'content-container');
+//     // Check for default page to load from URL hash
+//     const hashPage = window.location.hash.substring(1);
+//     if (hashPage) {
+//         const pageUrl = hashPage.includes('.html') ? hashPage : `${hashPage}.html`;
+//         loadContent(pageUrl, 'content-container');
         
-        // Set active state on the corresponding button
-        const matchingButton = Array.from(navButtons).find(btn => 
-            btn.dataset.page === pageUrl || 
-            btn.getAttribute('onclick')?.includes(pageUrl)
-        );
-        if (matchingButton) matchingButton.classList.add('active');
-    }
-});
+//         // Set active state on the corresponding button
+//         const matchingButton = Array.from(navButtons).find(btn => 
+//             btn.dataset.page === pageUrl || 
+//             btn.getAttribute('onclick')?.includes(pageUrl)
+//         );
+//         if (matchingButton) matchingButton.classList.add('active');
+//     }
+// });
 
 // Function to dynamically load additional JavaScript file
 function loadJavaScriptFile(url) {
