@@ -40,6 +40,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
                 .then(response => response.arrayBuffer())
                 .then(buffer => renderPDF(buffer))
                 .catch(error => console.error('Error loading PDF:', error));
+            showPdfContent();
         } else {
             showTextContent();
             document.getElementById('fileContent').textContent = data;
