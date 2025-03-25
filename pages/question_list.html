@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File List</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="mb-6">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">File List</h1>
+            <p class="text-gray-600 dark:text-gray-400 mt-1">View the contents of files in the question generated directory.</p>
+        </header>
+
+        <div id="file-list" class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+            <div class="px-6 py-5">
+                <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400">Files:</h2>
+                <ul id="files-container" class="mt-2 text-gray-700 dark:text-gray-300"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            async function fetchFileList() {
+        try {
+            const response = await fetch('http://localhost:3000/list-questiongenerated');
+            const files = await response.json();
+            const filesContainer = document.getElementById('files-container');
+            console.log("three things", response, files, filesContainer);
+            // Clear existing file list
+            filesContainer.innerHTML = '';
+
+            // Populate file list
+            files.forEach(file => {
+                // Create a new list item container
+                const listItemContainer = document.createElement('li');
+                listItemContainer.className = 'flex justify-between items-center px-6 py-5 border-b border-gray-200 dark:border-gray-700';
+
+                // Create file name element
+                const fileName = document.createElement('span');
+                fileName.textContent = file;
+                listItemContainer.appendChild(fileName);
+
+                // Create button
+                const button = document.createElement('button');
+                button.textContent = 'View';
+                button.className = 'ml-4 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors';
+                button.onclick = async () => {
+                    try {
+    const content = await getFileContent(`questiongenerated/${file}`); // Call getFileContent with the file path
+    console.log(`Content of ${file}:`, content);
+
+    // Store content in localStorage
+    localStorage.setItem('currentExerciseInfo', JSON.stringify({ currentExercise: content }));
+
+    // Optionally, you can log a confirmation message
+    console.log('Content stored in localStorage:', { currentExercise: content });
+    loadContentWithAnimation('/pages/question_show.html','content-container')
+} catch (error) {
+    console.error(`Error fetching content for ${file}:`, error);
+}
+                };
+                listItemContainer.appendChild(button);
+
+                // Append to the files container
+                filesContainer.appendChild(listItemContainer);
+            });
+        } catch (error) {
+            console.error('Error fetching file list:', error);
+        }
+    }
+
+    // Fetch the file list when the page loads
+    fetchFileList();
+        })();
+    </script>
+</body>
+</html>
