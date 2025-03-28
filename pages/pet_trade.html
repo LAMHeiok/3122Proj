@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII Pet Trading Center</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    <style>
+        /* Animation for pet cards */
+        .pet-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .pet-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* ASCII art styling */
+        .ascii-pet {
+            white-space: pre;
+            line-height: 1.2;
+            letter-spacing: 0.1em;
+            font-family: 'Courier New', monospace;
+        }
+        
+        /* Tab styling */
+        .trade-tab {
+            transition: all 0.3s ease;
+        }
+        .trade-tab.active {
+            background-color: #5D5CDE;
+            color: white;
+        }
+        .trade-tab:hover:not(.active) {
+            background-color: rgba(93, 92, 222, 0.1);
+        }
+        
+        /* Badge animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .badge-pulse {
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Confirmation animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up {
+            animation: fadeInUp 0.4s ease-out forwards;
+        }
+        
+        /* Modal animation */
+        .modal-enter {
+            animation: fadeInUp 0.3s ease-out;
+        }
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">ASCII Pet Trading Center</h1>
+                    <p class="text-gray-600 dark:text-gray-300">Trade your ASCII pets with other collectors</p>
+                </div>
+                <div class="mt-4 md:mt-0 flex space-x-3">
+                </div>
+            </div>
+        </header>
+        
+        <!-- Stats Banner -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418C17.067 8.95 16.28 3 12 3c-4.281 0-5.068 5.95-3.732 10.678 1.55 2.928-1.647 3.624-5.09 4.418C.105 18.823-.01 20.164.01 22h23.98c.02-1.836-.095-3.177-3.167-3.904z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Your Collection</div>
+                        <div class="text-xl font-bold text-gray-800 dark:text-white">
+                            <span id="myPetCount">0</span> Pets
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m-4 6H4m0 0l4 4m-4-4l4-4" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Active Trades</div>
+                        <div class="flex items-center">
+                            <div class="text-xl font-bold text-gray-800 dark:text-white mr-2">
+                                <span id="activeTradeCount">0</span>
+                            </div>
+                            <div id="pendingBadge" class="hidden px-2 py-0.5 text-xs bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 rounded-full badge-pulse">
+                                <span id="pendingTradeCount">0</span> pending
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Completed Trades</div>
+                        <div class="text-xl font-bold text-gray-800 dark:text-white">
+                            <span id="completedTradeCount">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Trading Tabs -->
+        <div class="flex mb-6 bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+            <button id="myCollectionTab" class="trade-tab active flex-1 py-4 font-medium text-center">
+                My Collection
+            </button>
+            <button id="tradeMarketTab" class="trade-tab flex-1 py-4 font-medium text-center">
+                Trade Market
+            </button>
+            <button id="myTradesTab" class="trade-tab flex-1 py-4 font-medium text-center">
+                My Trades
+            </button>
+        </div>
+        
+        <!-- MY COLLECTION SECTION -->
+        <div id="myCollectionSection">
+            <!-- Filter Controls -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 mb-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 sm:mb-0">Your ASCII Pets</h2>
+                    <div class="flex space-x-2">
+                        <select id="collectionFilterType" class="px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-200">
+                            <option value="all">All Types</option>
+                            <option value="cat">Cats</option>
+                            <option value="dog">Dogs</option>
+                            <option value="rabbit">Rabbits</option>
+                            <option value="bird">Birds</option>
+                            <option value="fish">Fish</option>
+                            <option value="alien">Aliens</option>
+                        </select>
+                        <select id="collectionFilterStatus" class="px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-200">
+                            <option value="all">All Status</option>
+                            <option value="available">Available</option>
+                            <option value="trading">Trading</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- My Pets Grid -->
+            <div id="emptyCollection" class="text-center py-12 bg-white dark:bg-gray-800 rounded-xl shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418C17.067 8.95 16.28 3 12 3c-4.281 0-5.068 5.95-3.732 10.678 1.55 2.928-1.647 3.624-5.09 4.418C.105 18.823-.01 20.164.01 22h23.98c.02-1.836-.095-3.177-3.167-3.904z" />
+                </svg>
+                <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">No Pets Found</h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-6">Generate some pets in the Pet Generator to start your collection.</p>
+                <a href="index.html" class="px-4 py-2 bg-primary hover:bg-opacity-90 text-white font-medium rounded-md focus:outline-none transition-colors duration-200 inline-flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    Generate Pets
+                </a>
+            </div>
+            
+            <div id="myPetsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+                <!-- Pet cards will be dynamically inserted here -->
+            </div>
+        </div>
+        
+        <!-- TRADE MARKET SECTION -->
+        <div id="tradeMarketSection" class="hidden">
+            <!-- Filter Controls -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 mb-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 sm:mb-0">Pets Available for Trade</h2>
+                    <div class="flex space-x-2">
+                        <select id="marketFilterType" class="px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-200">
+                            <option value="all">All Types</option>
+                            <option value="cat">Cats</option>
+                            <option value="dog">Dogs</option>
+                            <option value="rabbit">Rabbits</option>
+                            <option value="bird">Birds</option>
+                            <option value="fish">Fish</option>
+                            <option value="alien">Aliens</option>
+                        </select>
+                        <select id="marketFilterUser" class="px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-200">
+                            <option value="all">All Users</option>
+                            <!-- User options will be added dynamically -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Market Pets Grid -->
+            <div id="emptyMarket" class="text-center py-12 bg-white dark:bg-gray-800 rounded-xl shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m-4 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+                <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">No Pets Available for Trade</h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-6">There are currently no pets listed for trade by other users.</p>
+                <button id="refreshMarketBtn" class="px-4 py-2 bg-primary hover:bg-opacity-90 text-white font-medium rounded-md focus:outline-none transition-colors duration-200 inline-flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Refresh Market
+                </button>
+            </div>
+            
+            <div id="marketPetsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+                <!-- Pet cards will be dynamically inserted here -->
+            </div>
+        </div>
+        
+        <!-- MY TRADES SECTION -->
+        <div id="myTradesSection" class="hidden">
+            <!-- Trades Tabs -->
+            <div class="flex mb-6 bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+                <button id="incomingTradesTab" class="trade-tab active flex-1 py-3 text-sm font-medium text-center relative">
+                    Incoming Offers
+                    <span id="incomingBadge" class="absolute top-1 right-2 hidden px-1.5 py-0.5 text-xs rounded-full bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 badge-pulse">
+                        <span id="incomingCount">0</span>
+                    </span>
+                </button>
+                <button id="outgoingTradesTab" class="trade-tab flex-1 py-3 text-sm font-medium text-center">
+                    Outgoing Offers
+                </button>
+                <button id="completedTradesTab" class="trade-tab flex-1 py-3 text-sm font-medium text-center">
+                    Completed Trades
+                </button>
+            </div>
+            
+            <!-- Incoming Trades Section -->
+            <div id="incomingTradesSection">
+                <div id="emptyIncoming" class="text-center py-12 bg-white dark:bg-gray-800 rounded-xl shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">No Incoming Trade Offers</h3>
+                    <p class="text-gray-500 dark:text-gray-400">You don't have any trade offers from other users at the moment.</p>
+                </div>
+                
+                <div id="incomingTradesList" class="space-y-4 hidden">
+                    <!-- Incoming trade cards will go here -->
+                </div>
+            </div>
+            
+            <!-- Outgoing Trades Section -->
+            <div id="outgoingTradesSection" class="hidden">
+                <div id="emptyOutgoing" class="text-center py-12 bg-white dark:bg-gray-800 rounded-xl shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">No Outgoing Trade Offers</h3>
+                    <p class="text-gray-500 dark:text-gray-400">You haven't sent any trade offers to other users.</p>
+                </div>
+                
+                <div id="outgoingTradesList" class="space-y-4 hidden">
+                    <!-- Outgoing trade cards will go here -->
+                </div>
+            </div>
+            
+            <!-- Completed Trades Section -->
+            <div id="completedTradesSection" class="hidden">
+                <div id="emptyCompleted" class="text-center py-12 bg-white dark:bg-gray-800 rounded-xl shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">No Completed Trades</h3>
+                    <p class="text-gray-500 dark:text-gray-400">You haven't completed any trades yet.</p>
+                </div>
+                
+                <div id="completedTradesList" class="space-y-4 hidden">
+                    <!-- Completed trade cards will go here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MODALS -->
+    
+    <!-- Pet Detail Modal -->
+    <div id="petDetailModal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50 dark:bg-opacity-70"></div>
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20">
+            <div class="modal-enter relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-lg w-full mx-auto">
+                <div class="absolute top-0 right-0 pt-4 pr-4">
+                    <button id="closePetModalBtn" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" id="petTypeIcon" class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418C17.067 8.95 16.28 3 12 3c-4.281 0-5.068 5.95-3.732 10.678 1.55 2.928-1.647 3.624-5.09 4.418C.105 18.823-.01 20.164.01 22h23.98c.02-1.836-.095-3.177-3.167-3.904z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 id="petModalName" class="text-xl font-semibold text-gray-800 dark:text-white">Pet Name</h3>
+                            <div class="flex items-center mt-1 space-x-2">
+                                <span id="petModalType" class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                                    Type
+                                </span>
+                                <span id="petModalOwner" class="px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400">
+                                    Owner
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="petModalAscii" class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-6 ascii-pet text-center overflow-auto max-h-[200px]">
+                        <!-- ASCII pet art will go here -->
+                    </div>
+                    
+                    <div id="petModalDescription" class="text-gray-600 dark:text-gray-300 mb-6">
+                        <p class="mb-2">Generated on <span id="petModalDate">date</span></p>
+                        <p>This unique ASCII pet has been lovingly added to someone's collection.</p>
+                    </div>
+                    
+                    <div id="petModalActions" class="flex justify-end space-x-3">
+                        <input type="hidden" id="petModalId">
+                        <input type="hidden" id="petModalActionType" value="none">
+                        
+                        <!-- Action buttons will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Trade Offer Modal -->
+    <div id="tradeOfferModal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50 dark:bg-opacity-70"></div>
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20">
+            <div class="modal-enter relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-3xl w-full mx-auto">
+                <div class="absolute top-0 right-0 pt-4 pr-4">
+                    <button id="closeTradeModalBtn" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Create Trade Offer</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Their Pet -->
+                        <div>
+                            <div class="mb-3 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4" />
+                                </svg>
+                                <h4 class="font-medium text-gray-700 dark:text-gray-300">You will receive</h4>
+                            </div>
+                            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h5 id="theirPetName" class="font-medium text-gray-800 dark:text-white">Their Pet</h5>
+                                    <span id="theirPetType" class="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                                        Type
+                                    </span>
+                                </div>
+                                <div id="theirPetAscii" class="ascii-pet text-sm mb-2 overflow-auto max-h-[150px] text-center">
+                                    <!-- Their pet ASCII art -->
+                                </div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">
+                                    Owner: <span id="theirPetOwner" class="font-medium">Username</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Your Pet Selection -->
+                        <div>
+                            <div class="mb-3 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 15v-1a4 4 0 00-4-4H8m0 0l3 3m-3-3l3-3m9 14V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z" />
+                                </svg>
+                                <h4 class="font-medium text-gray-700 dark:text-gray-300">You will offer</h4>
+                            </div>
+                            <div class="mb-3">
+                                <select id="yourPetSelect" class="w-full p-2 border rounded bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200">
+                                    <option value="">-- Select a pet to offer --</option>
+                                    <!-- Options will be populated dynamically -->
+                                </select>
+                            </div>
+                            <div id="yourOfferPetPreview" class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 hidden">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h5 id="yourOfferPetName" class="font-medium text-gray-800 dark:text-white">Your Pet</h5>
+                                    <span id="yourOfferPetType" class="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                                        Type
+                                    </span>
+                                </div>
+                                <div id="yourOfferPetAscii" class="ascii-pet text-sm mb-2 overflow-auto max-h-[150px] text-center">
+                                    <!-- Your pet ASCII art -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="tradeOfferError" class="hidden mb-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-md border border-red-200 dark:border-red-800 text-sm">
+                        Please select a pet to offer in this trade.
+                    </div>
+                    
+                    <div id="tradeOfferSuccess" class="hidden mb-4 p-3 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-md border border-green-200 dark:border-green-800 text-sm fade-in-up">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="font-medium">Trade offer sent successfully!</p>
+                                <p class="mt-1">The other user will be notified about your offer.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3">
+                        <input type="hidden" id="tradeTheirPetId">
+                        <input type="hidden" id="tradeTheirPetOwnerId">
+                        
+                        <button id="cancelTradeBtn" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-medium rounded-md focus:outline-none transition-colors duration-200">
+                            Cancel
+                        </button>
+                        <button id="submitTradeBtn" class="px-4 py-2 bg-primary hover:bg-opacity-90 text-white font-medium rounded-md focus:outline-none transition-colors duration-200">
+                            Send Trade Offer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Trade Confirmation Modal -->
+    <div id="tradeConfirmationModal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50 dark:bg-opacity-70"></div>
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20">
+            <div class="modal-enter relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full mx-auto">
+                <div class="absolute top-0 right-0 pt-4 pr-4">
+                    <button id="closeConfirmModalBtn" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Confirm Trade</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        Are you sure you want to 
+                        <span id="tradeConfirmAction" class="font-medium text-primary">accept</span> 
+                        this trade offer?
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Your Pet -->
+                        <div>
+                            <div class="mb-3 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                </svg>
+                                <h4 class="font-medium text-gray-700 dark:text-gray-300">You will give up</h4>
+                            </div>
+                            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h5 id="confirmYourPetName" class="font-medium text-gray-800 dark:text-white">Your Pet</h5>
+                                    <span id="confirmYourPetType" class="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                                        Type
+                                    </span>
+                                </div>
+                                <div id="confirmYourPetAscii" class="ascii-pet text-sm mb-2 overflow-auto max-h-[150px] text-center">
+                                    <!-- Your pet ASCII art -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Their Pet -->
+                        <div>
+                            <div class="mb-3 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18m-7 4v1a3 3 0 003 3h4a3 3 0 003-3V7a3 3 0 00-3-3h-4a3 3 0 00-3 3v1" />
+                                </svg>
+                                <h4 class="font-medium text-gray-700 dark:text-gray-300">You will receive</h4>
+                            </div>
+                            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h5 id="confirmTheirPetName" class="font-medium text-gray-800 dark:text-white">Their Pet</h5>
+                                    <span id="confirmTheirPetType" class="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                                        Type
+                                    </span>
+                                </div>
+                                <div id="confirmTheirPetAscii" class="ascii-pet text-sm mb-2 overflow-auto max-h-[150px] text-center">
+                                    <!-- Their pet ASCII art -->
+                                </div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">
+                                    Owner: <span id="confirmTheirPetOwner" class="font-medium">Username</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="tradeConfirmSuccess" class="hidden mb-4 p-3 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-md border border-green-200 dark:border-green-800 text-sm fade-in-up">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="font-medium">Trade completed successfully!</p>
+                                <p class="mt-1">The pet has been added to your collection.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="tradeRejectSuccess" class="hidden mb-4 p-3 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md border border-gray-200 dark:border-gray-600 text-sm fade-in-up">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="font-medium">Trade offer rejected</p>
+                                <p class="mt-1">The other user will be notified.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3">
+                        <input type="hidden" id="confirmTradeId">
+                        <input type="hidden" id="confirmTradeAction" value="accept">
+                        
+                        <button id="cancelConfirmBtn" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-medium rounded-md focus:outline-none transition-colors duration-200">
+                            Cancel
+                        </button>
+                        <button id="acceptTradeBtn" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-md focus:outline-none transition-colors duration-200">
+                            Accept Trade
+                        </button>
+                        <button id="rejectTradeBtn" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-md focus:outline-none transition-colors duration-200">
+                            Reject Trade
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/pet_trade.js"></script>
+    <script>
+        PetTrading.init()
+    </script>
+</body>
+</html>
