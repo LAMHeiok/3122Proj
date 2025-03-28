@@ -15,6 +15,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="/js/TimeTable.js"></script>
     <script src="/js/loadFile.js"></script>
+    <script src="/js/shop.js"></script>
+    <script src="/js/pet.js"></script>
+    
     
     <script>
         tailwind.config = {
@@ -103,6 +106,19 @@
                     class="nav-btn px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
                     data-page="TimeTable">
                     TimeTable
+                </button>
+                <!--add shop page-->
+                <button 
+                    onclick="loadContentWithAnimation('/pages/shop.html','content-container')" 
+                    class="nav-btn px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
+                    data-page="Shop">
+                    Shop
+                </button>
+                <button 
+                    onclick="loadContentWithAnimation('/pages/pet.html','content-container')" 
+                    class="nav-btn px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
+                    data-page="Pet">
+                    Pet
                 </button>
             </div>
         </div>

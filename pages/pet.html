@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII Pet Generator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                    },
+                    fontFamily: {
+                        mono: ['Courier New', 'monospace']
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    <style>
+        /* Custom animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .pet-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        
+        /* Ensuring the ASCII art is properly displayed */
+        .ascii-pet {
+            white-space: pre;
+            line-height: 1.2;
+            letter-spacing: 0.1em;
+            font-family: 'Courier New', monospace;
+        }
+        
+        /* Collection grid item hover effect */
+        .collection-item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .collection-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Pet generation animation */
+        @keyframes generatePet {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .pet-generate {
+            animation: generatePet 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">ASCII Pet Generator</h1>
+                    <p class="text-gray-600 dark:text-gray-300">Generate and collect unique text pattern pets</p>
+                </div>
+                <div class="mt-4 md:mt-0 flex items-center">
+                    <div id="generateCredits" class="bg-white dark:bg-gray-800 px-4 py-2 mr-3 rounded-lg shadow-sm flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-gray-500 dark:text-gray-400 text-xs">Generate Credits</div>
+                            <div class="text-gray-800 dark:text-white font-bold" id="creditsCount">5</div>
+                        </div>
+                    </div>
+                    <div id="petCount" class="bg-white dark:bg-gray-800 px-4 py-2 rounded-lg shadow-sm flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418C17.067 8.95 16.28 3 12 3c-4.281 0-5.068 5.95-3.732 10.678 1.55 2.928-1.647 3.624-5.09 4.418C.105 18.823-.01 20.164.01 22h23.98c.02-1.836-.095-3.177-3.167-3.904z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-gray-500 dark:text-gray-400 text-xs">Pets Collected</div>
+                            <div class="text-gray-800 dark:text-white font-bold" id="collectionCount">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main content -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Generator Controls -->
+            <div class="lg:col-span-1 bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Pet Generator</h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-6">Each generation creates a random pet with unique characteristics and adds it to your collection.</p>
+                
+                <!-- Hidden fields for random generation -->
+                <input type="hidden" id="petType" value="random">
+                <input type="hidden" id="petSize" value="2">
+                <input type="hidden" id="petComplexity" value="2">
+                <input type="hidden" id="charSet" value="mixed">
+                <input type="hidden" id="petColor" value="random">
+                
+                <!-- Pet name input -->
+                <div class="mb-6">
+                    <label for="petName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Give your pet a name</label>
+                    <input type="text" id="petName" placeholder="Enter pet name" class="w-full px-3 py-2 text-base text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+                
+                <!-- Generate button -->
+                <button id="generateBtn" class="w-full mt-4 px-4 py-3 bg-primary hover:bg-opacity-90 text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-colors duration-200 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Generate Random Pet
+                </button>
+                
+                <div id="noCreditsMessage" class="hidden mt-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-md border border-red-200 dark:border-red-800">
+                    <p class="text-center">No generate credits left! Visit the shop to buy more.</p>
+                </div>
+                
+                <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <a href="shop.html" class="w-full block text-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-colors duration-200">
+                        Visit Shop for More Credits
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Pet Display Area -->
+            <div class="lg:col-span-2">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 h-full flex flex-col">
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Most Recent Pet</h2>
+                    
+                    <!-- Pet container -->
+                    <div class="flex-grow">
+                        <div id="petContainer" class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 min-h-[300px] flex flex-col items-center justify-center">
+                            <!-- Empty state -->
+                            <div id="emptyState" class="text-center py-8">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418C17.067 8.95 16.28 3 12 3c-4.281 0-5.068 5.95-3.732 10.678 1.55 2.928-1.647 3.624-5.09 4.418C.105 18.823-.01 20.164.01 22h23.98c.02-1.836-.095-3.177-3.167-3.904z" />
+                                </svg>
+                                <p class="text-gray-500 dark:text-gray-400 mb-2">No pet generated yet</p>
+                                <p class="text-sm text-gray-400 dark:text-gray-500">Click "Generate Random Pet" to create a unique pet!</p>
+                            </div>
+                            
+                            <!-- Generated pet will appear here -->
+                            <div id="generatedPet" class="hidden w-full">
+                                <!-- Using a specific ID that matches what the JS is looking for -->
+                                <div id="asciiPetDisplay" class="ascii-pet text-center font-mono text-lg pet-generate"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Collection Section -->
+        <div class="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Your Pet Collection</h2>
+            
+            <!-- Empty collection state -->
+            <div id="emptyCollection" class="text-center py-8 text-gray-500 dark:text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <p class="mb-2">Your collection is empty</p>
+                <p class="text-sm">Generate pets to build your collection</p>
+            </div>
+            
+            <!-- Collection grid -->
+            <div id="petCollection" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 hidden">
+                <!-- Pets will be added here when generated -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Link to your external JavaScript file -->
+    <script src="pet.js"></script>
+    <script>
+        window.AsciiPetApp.initialize();    
+    </script>
+</body>
+</html>
