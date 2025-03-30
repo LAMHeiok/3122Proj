@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+    .question-container {
+        margin: 20px 0;
+    }
+</style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,22 +19,26 @@
             <p class="text-gray-600 dark:text-gray-400 mt-1">View the content of the current exercise.</p>
         </header>
 
-        <div id="exercise-content" class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+        <div id="exercise-content" class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 relative">
             <p id="content-placeholder" class="text-gray-700 dark:text-gray-300">Loading content...</p> <!-- Placeholder for content -->
+            <div id="main-question-container"></div>
+
+            <!-- Submit Button -->
+            <div style="display: flex; margin-left: auto;"><button id="submit-button" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition-colors">
+                Submit
+            </button>
+        </div>
         </div>
     </div>
 
     <script>
-        // Retrieve content from localStorage
-        const currentExerciseInfo = JSON.parse(localStorage.getItem('currentExerciseInfo'));
+        // Call the questionTypeHandle function to process the exercise data
+        questionTypeHandle();
+    const submitButton = document.getElementById('submit-button');
+    if (submitButton) {
+        submitButton.addEventListener('click', checkAnswer);
+    }
 
-        // Check if content exists
-        if (currentExerciseInfo && currentExerciseInfo.currentExercise) {
-            const contentPlaceholder = document.getElementById('content-placeholder');
-            contentPlaceholder.textContent = currentExerciseInfo.currentExercise; // Display the content
-        } else {
-            document.getElementById('content-placeholder').textContent = 'No exercise information found.'; // Handle case where no content exists
-        }
     </script>
 </body>
 </html>

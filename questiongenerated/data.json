@@ -1,36 +1,63 @@
 {
   "exerciseId": 10000,
-  "exerciseTitle": "Exercise 1: Cooking Questions",
+  "exerciseTitle": "Exercise 1: Computer Hardware Knowledge",
   "sections": [
     {
       "sectionId": 11000,
-      "sectionTitle": "A.: Cooking Techniques",
+      "sectionTitle": "A.: Multiple Choice Questions",
       "questions": [
         {
           "questionId": 11001,
-          "questionText": "What is the main purpose of blanching vegetables?",
+          "questionText": "What does CPU stand for?",
           "correctAnswer": 1,
           "questionType": 1,
           "answerShow": "",
           "options": [
-            "To enhance color and flavor",
-            "To soften them before freezing",
-            "To make them easier to peel",
-            "To cook them completely"
+            "Central Processing Unit",
+            "Computer Personal Unit",
+            "Central Performance Unit",
+            "Computer Power Unit"
+          ]
+        },
+        {
+          "questionId": 11002,
+          "questionText": "Which component is responsible for rendering graphics in a computer?",
+          "correctAnswer": 0,
+          "questionType": 1,
+          "answerShow": "",
+          "options": [
+            "Graphics Processing Unit",
+            "Central Processing Unit",
+            "Motherboard",
+            "RAM"
           ]
         }
       ]
     },
     {
       "sectionId": 12000,
-      "sectionTitle": "B. Cooking Methods",
+      "sectionTitle": "B.: Short/Long Answer Questions",
       "questions": [
         {
           "questionId": 12001,
-          "questionText": "Explain the difference between baking and roasting.",
-          "correctAnswer": "Baking is typically done at lower temperatures and is used for breads and pastries, while roasting is done at higher temperatures and is often used for meats and vegetables.",
+          "questionText": "Explain the function of RAM in a computer system.",
+          "correctAnswer": "RAM (Random Access Memory) is used to store data temporarily for quick access by the CPU.",
           "questionType": 2,
-          "answerShow": "Baking is for breads; roasting is for meats."
+          "answerShow": "RAM is used for temporary data storage."
+        },
+        {
+          "questionId": 12002,
+          "questionText": "What are the main differences between SSD and HDD?",
+          "correctAnswer": "SSD (Solid State Drive) is faster and more reliable than HDD (Hard Disk Drive), which uses spinning disks.",
+          "questionType": 2,
+          "answerShow": "SSD is faster and more reliable."
+        },
+        {
+          "questionId": 12003,
+          "questionText": "Describe the role of the motherboard in a computer.",
+          "correctAnswer": "The motherboard connects all components of the computer and allows communication between them.",
+          "questionType": 2,
+          "answerShow": "The motherboard connects all components."
         }
       ]
     }

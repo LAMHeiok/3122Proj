@@ -32,11 +32,11 @@ async function loadUploadedFiles() {
                 fileNameContainer.appendChild(fileName);
                 fileNameContainer.appendChild(dots);
 
-                // Create button
-                const button = document.createElement('button');
-                button.textContent = 'Select';
-                button.className = 'flex-shrink-0 bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 ml-2';
-                button.addEventListener('click', async () => {
+                // Create Select button
+                const selectButton = document.createElement('button');
+                selectButton.textContent = 'Select';
+                selectButton.className = 'flex-shrink-0 bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 ml-2';
+                selectButton.addEventListener('click', async () => {
                     console.log('Requesting file:', file);
                     const fileExtension = file.split('.').pop().toLowerCase();
                     
@@ -73,7 +73,6 @@ async function loadUploadedFiles() {
                         } else if (fileExtension === 'docx') {
                             console.log('Processing DOCX content');
                             showTextContent();
-                            // Display the text directly since server has already converted it
                             document.getElementById('fileContent').textContent = data;
                         } else {
                             console.log('Processing text content');
@@ -85,8 +84,46 @@ async function loadUploadedFiles() {
                         document.getElementById('fileContent').textContent = `Error loading file: ${error.message}`;
                     }
                 });
+
+                // Create Edit button
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.className = 'flex-shrink-0 bg-yellow-500 text-white px-3 py-1 rounded hover:bg-opacity-90 ml-2';
+                editButton.addEventListener('click', async () => {
+                    const newFileName = prompt('Enter new file name:', file);
+                    if (newFileName && newFileName !== file) {
+                        try {
+                            const response = await fetch('http://localhost:3000/rename-file', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    oldName: file,
+                                    newName: newFileName,
+                                }),
+                            });
+
+                            if (response.ok) {
+                                console.log(`File renamed from ${file} to ${newFileName}`);
+                                // Refresh the file list after renaming
+                                loadUploadedFiles();
+                            } else {
+                                const errorData = await response.json();
+                                console.error('Error renaming file:', errorData.error);
+                                alert(`Error: ${errorData.error}`);
+                            }
+                        } catch (error) {
+                            console.error('Error during rename request:', error);
+                            alert('Error renaming file. Please try again.');
+                        }
+                    }
+                });
+
+                // Append buttons to list item
                 listItem.appendChild(fileNameContainer);
-                listItem.appendChild(button);
+                listItem.appendChild(selectButton);
+                listItem.appendChild(editButton);
                 fileList.appendChild(listItem);
             });
         })

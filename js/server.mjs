@@ -215,6 +215,36 @@ app.get('/list-uploads', (req, res) => {
     });
 });
 
+// Route to rename uploaded files
+app.post('/rename-file', async (req, res) => {
+    const { oldName, newName } = req.body;
+    const uploadDir = path.join(__dirname, '../uploads');
+
+    if (!oldName || !newName) {
+        return res.status(400).json({ error: 'Old name and new name are required' });
+    }
+
+    const oldPath = path.join(uploadDir, oldName);
+    const newPath = path.join(uploadDir, newName);
+
+    try {
+        // Check if the old file exists
+        await fsp.access(oldPath);
+
+        // Rename the file
+        await fsp.rename(oldPath, newPath);
+        console.log(`File renamed from ${oldName} to ${newName}`);
+
+        res.status(200).json({ message: 'File renamed successfully' });
+    } catch (error) {
+        if (error.code === 'ENOENT') {
+            return res.status(404).json({ error: 'File not found' });
+        }
+        console.error('Error renaming file:', error);
+        res.status(500).json({ error: 'Failed to rename file' });
+    }
+});
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

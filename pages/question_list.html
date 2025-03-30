@@ -54,7 +54,7 @@
     console.log(`Content of ${file}:`, content);
 
     // Store content in localStorage
-    localStorage.setItem('currentExerciseInfo', JSON.stringify({ currentExercise: content }));
+    localStorage.setItem('currentExerciseInfo', content);
 
     // Optionally, you can log a confirmation message
     console.log('Content stored in localStorage:', { currentExercise: content });
