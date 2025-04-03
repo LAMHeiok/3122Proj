@@ -83,6 +83,41 @@
             0%, 100% { transform: translate(-50%, -50%); }
             50% { transform: translate(-50%, -60%); }
         }
+
+        /* Dark mode text */
+        .dark h1,
+        .dark h2,
+        .dark .text-gray-800,
+        .dark .font-semibold,
+        .dark .font-bold {
+            color: #f3f4f6;
+        }
+
+        .dark .text-2xl,
+        .dark .text-xl {
+            color: #f3f4f6;
+        }
+
+        .dark #fileList li {
+            color: #e5e7eb;
+        }
+
+        .dark #pdfContent h2,
+        .dark #textContent h2,
+        .dark .uploaded-files-heading {
+            color: #f3f4f6;
+        }
+
+        .dark #fileContent,
+        .dark #pdfViewer,
+        .dark .file-name {
+            color: #e5e7eb;
+        }
+
+        .dark #contentLoading span,
+        .dark #pdfLoading span {
+            color: #e5e7eb;
+        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
