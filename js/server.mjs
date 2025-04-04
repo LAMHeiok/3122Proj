@@ -1,12 +1,10 @@
 import express from 'express';
-import { LMStudioClient } from '@lmstudio/sdk';
-import cors from 'cors'; // Import the cors package
+import cors from 'cors';
 import formidable from 'formidable';
 import path from 'path';
 import fs from 'fs';
 import fsp from 'fs/promises'
 import { fileURLToPath } from 'url';
-import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { readFileSync } from 'fs';
 import mammoth from 'mammoth';
 import pdfParse from 'pdf-parse';
