@@ -1,0 +1,1001 @@
+Overview of Modern Software
+Development
+
+1
+
+Github Octoverse 2024 Report
+• In 2024, Python overtook JavaScript as the most popular language on GitHub
+
+https://github.blog/news-insights/octoverse/octoverse-2024
+
+2
+
+• In the past year, more developers joined GitHub and engaged with open source
+and public projects (in some cases, empowered by AI)
+• Tools like GitHub Copilot started going mainstream in early 2023, the number
+of developers on GitHub has rapidly grown
+• In 2024, developers on GitHub created over 70,000 new public and open source
+generative AI projects and made almost 60% more total contributions to all
+generative AI projects on GitHub.
+
+3
+
+AI in software development
+2024 survey
+
+https://github.blog/news-insights/research/survey-ai-wave-grows
+4
+
+Stack Overflow
+• The number of questions and votes decreased by about
+50% after the release of ChatGPT
+• AI can solve many programming problems.
+• Generative AI may have been trained using content from Stack
+Overflow.
+
+• François Chollet describes this as the "Planet of the Apes
+syndrome."
+• AI can repeat existing knowledge, but it cannot create new
+answers.
+• If Stack Overflow continues to decline, AI may not have new
+questions and answers to learn from.
+
+5
+
+The AI Revolution in Software Development
+• Generating code (the new stack overflow)
+• Summarizing code
+
+• Adding comments
+• Generation of Test cases
+• Re-factoring code
+• Improve existing code without altering its external
+behavior
+•
+
+E.g. enhance readability, maintainability, performance, and adherence
+to coding standards.
+
+• Pair programming
+• A human developer works alongside an artificial
+intelligence (AI) tool, treating the AI as a coding partner.
+
+Video: Security in the (AI assisted) software development lifecycle
+6
+
+AI Assisted Coding
+• Generative AI is being used by many Fortune 100 companies to write computer code.
+• Johnson & Johnson, United Airlines, and Goldman Sachs, etc
+
+• AI coding tools like GitHub Copilot suggest portions of code, helping developers work faster.
+• Chief Information Officers (CIOs) are concerned about the exponential increase in the amount of
+software that can be created with these tools.
+• Manage, update, and organize the AI generated code
+
+• The skill set for developers is changing.
+• In the past: programmers create from nothing
+• Programmers are now expected to do more checking over work.
+
+• Low Code and No Code Tools
+• Democratizing software development
+
+Could AI-Generated Code Be Too Much of a Good Thing? | WSJ Tech News Briefing
+https://www.youtube.com/watch?v=-UhjYsLBuUw
+
+The AI Revolution in Software Development
+• Generating code (the new stack overflow)
+• Summarizing code
+
+• Adding comments
+• Generation of Test cases
+• Re-factoring code
+• Pair programming
+
+Video: Security in the (AI assisted) software development lifecycle
+
+8
+
+Impact of AI on programmers
+
+https://www.youtube.com/watch?v=U-AToWsTlrM
+
+https://www.youtube.com/watch?v=yj73GIEKmLI
+
+https://www.youtube.com/watch?v=2mH0ZLU3Z_s
+
+9
+
+Generative AI in Amazon
+• According to Amazon’s CEO Andy Jassy, with the use of generative
+AI
+• The average time to upgrade an application to Java 17 drops from an
+average of 50 developer-days to just a few hours, saving the equivalent
+of 4,500 developer-years of work
+• Upgrade more than 50% of their production Java systems to modern
+versions in six months
+• Their developers shipped 79% of the auto-generated code reviews
+without any additional changes.
+
+• The upgrades have enhanced security and reduced infrastructure
+costs, providing an estimated $260M in annualized efficiency gains.
+
+https://www.linkedin.com/in/andy-jassy-8b1615/recent-activity/all
+
+10
+
+• Matt Garman, CEO of Amazon Web Services (AWS) warn that AI could replace
+their coding work.
+• "Coding is just kind of like the language that we talk to computers. It's not necessarily the skill in and of
+itself," he explained.
+• "The skill in and of itself is like, how do I innovate? How do I go build something that's interesting for my
+end users to use?”
+
+https://www.hrgrapevine.com/us/content/article/2024-08-22-amazon-cloud-ceo-warns-software-engineers-aicould-replace-your-coding-work-within-2-years
+
+11
+
+Challenges with AI-Generated Code
+• Hallucination: Co-pilot and Chat GPT can generate code that is incorrect or irrelevant
+• Security vulnerabilities: The AI model are trained on massive datasets of open-source
+code, which can contain numerous security vulnerabilities.
+
+12
+
+GPT and GitHub Copilot
+• GitHub Copilot is an AI-powered coding assistant that
+helps developers write code faster and more efficiently
+
+https://openai.com/index/learning-to-reason-with-llms
+
+https://github.com/features/copilot
+https://www.pcmag.com/news/chatgpt-passes-googlecoding-interview-for-level-3-engineer-with-183k-salary
+13
+
+Amazon Whisper and Amazon Q
+• Amazon Codewhisper: AI-powered productivity tool for the IDE and command line
+• Amazon Q: Generative AI–powered assistant in AWS
+
+https://aws.amazon.com/q
+https://aws.amazon.com/codewhisperer
+
+14
+
+Cursor AI Code Editor
+
+https://www.cursor.com
+15
+
+Case Study: McDonald's Home Delivery
+• 37,000 restaurants in 120 countries
+• Increasingly takes orders from more popular online services like UberEats.
+
+16
+
+https://www.news.com.au/lifestyle/food/restaurants-bars/mcdonalds-australia-launches-table-delivery-service-and-partners-withubereats/news-story/1633509d4e16d719ffedeb3d85a88254
+17
+
+Critical business requirements
+• McDonald’s went from idea to execution on a “massive scale” within four months.
+• Two-week development iterations
+• McDonald’s takes between 250,000 and 500,000 orders an hour, or as many as 20,000 orders a
+second
+• Peak hour happens three times a day every day
+• During breakfast, lunch and dinner time
+
+• Used by its worldwide operations to accept orders from food delivery services.
+• The architecture behind the platform had to be scalable, reliable and secure.
+• Whatever the team built needed to work across multiple countries, supporting different business
+requirements, business rules and then different delivery partners.
+
+• Work with multiple delivery partners in the world
+• UberEats in US
+• Other partners in European and Asian countries
+
+18
+
+McDonald’s Delivery System: The Tech Stack
+• Third-Party Delivery Platforms: Integration with platforms like Uber Eats for handling customer orders.
+• Microservices Architecture:
+• AWS Elastic Container Service (ECS): Serves as the core of the solution
+• Using multiple microservices within AWS ECS for different functionalities, each with different scale and runtime profiles.
+
+• Backend
+
+• RESTful APIs: Utilized via an API gateway pattern for middleware communication.
+
+• Data Handling and Storage
+
+• Amazon Simple Queue Service (SQS): For asynchronous inter-service communication.
+• Amazon ElastiCache with Redis: For distributed caching to handle high transaction volumes.
+
+• Amazon Relational Database Service (RDS): Backs up Redis and is used alongside Amazon S3 for
+unstructured data management.
+• Development and Operations
+
+• Adopting AWS Services: Decision to use AWS platform services for scalability and ease of management.
+• DevOps and CI/CD: Utilizing Jenkins for pipeline orchestration and Terraform for deployment, with integration tests and
+validation scripts.
+
+• Polyglot Tech Stack
+•
+•
+
+Supports multiple programming languages, facilitating legacy code integration and new developments.
+Different programming models (synchronous/asynchronous) based on the type of microservices.
+
+• Monitoring and Logging
+
+• New Relic for telemetry data
+• ELK stack for application logging, ensuring comprehensive oversight of system performance.
+19
+
+Scalability
+• Scalability refers to the ability to adjust the capacity of the system to cost-efficiently
+fulfill the demands.
+• Handle more users, clients, data, transactions, or requests without affecting the user
+experience.
+• Scale down as much as scale up easily and quickly
+
+20
+
+Designing for Scale
+• Vertical vs. Horizontal scaling
+• Adding more clones of your application
+
+• Separating application and database
+• Scaling the Data
+• Data replication
+• Copying data and store in multiple locations to ensure consistency and availability.
+
+• Data partitioning
+• Keeping a subset of the data on each machine
+
+• Functional partitioning
+• Dividing the system into smaller subsystems based on functionality
+
+21
+
+Vertical Vs. Horizontal Scaling
+
+22
+
+Vertical Scaling (Scaling up)
+• Increasing the capacity of a resource
+• e.g. additional hardware, using a larger VM size
+
+• Without making any changes to the application
+
+https://adrianmejia.com/how-to-scale-a-nodejs-app-based-on-number-of-users/
+23
+
+Vertical scaling has a limit
+• Scaling out may be cheaper than scaling up
+• Running several small VMs can cost less than a
+single large VM.
+
+24
+
+Horizontal scaling (scaling out)
+• Adding new instances of a resource, such as VMs or database replicas.
+• Horizontal scale must be designed into the system
+
+25
+
+Separating application and database
+• Application and database doesn’t fight for the same resources.
+• We can scale each tier (app, db) independently to as many as we need.
+
+https://adrianmejia.com/how-to-scale-a-nodejs-app-based-on-number-of-users
+26
+
+Case Study: Scaling in Instagram
+
+Ref: Scaling Instagram Infrastructure
+https://www.youtube.com/watch?v=hnpzNAPiC0E27
+
+Monolithic Architecture
+• A single-tiered software application in which different components
+combined into a single program
+
+Monolithic e-Commerce Application
+28
+
+Challenges
+• Deployment of updates to the application require a restart of the application, which
+may temporarily impact availability
+• Can't scale application components individually
+• High coupling across its functional components.
+• New features/fixes become tricky, time-consuming, and expensive to implement.
+
+• A monolithic application is constructed with a single technology stack.
+
+29
+
+Microservice architecture
+
+• Video: What are Microservices?
+• An application is broken into smaller, completely independent components
+• Independently deployable
+• Services can be developed and deployed in parallel, often by multiple teams.
+
+Microsoft’s eShopOnContainers reference app
+https://docs.microsoft.com/en-us/dotnet/architecture/cloud-native/introduce-eshoponcontainers-reference-app
+
+30
+
+Development transformation at Amazon
+• Amazon was one of the first companies to use microservices to
+revolutionize their whole company.
+2001
+
+Monolithic
+application + teams
+
+2009
+
+Microservices
++ two-pizza teams
+
+Monolith development cycle challenges
+
+Build
+
+Developers
+
+App
+
+Test
+
+Delivery pipeline
+
+Deploy
+
+Microservice-based development lifecycle
+
+Developers
+
+Services
+
+Build
+
+Test
+
+Deploy
+
+Build
+
+Test
+
+Deploy
+
+Build
+
+Test
+
+Deploy
+
+Build
+
+Test
+
+Deploy
+
+Build
+
+Test
+
+Deploy
+
+Build
+
+Test
+
+Deploy
+
+Delivery pipelines
+
+Microservices in Netflix
+• Netflix decided to split its monolith into microservices in 2009, after
+experiencing growing pains and frequent server disruptions as a result of their
+monolithic design.
+• > 700 Microservices in Netflix nowadays
+
+Ref:AWS re:Invent 2015: A Day in the Life of a Netflix Engineer
+
+Ref: Mastering Chaos - A Netflix Guide to Microservices
+34
+
+Case Study: Uber’s microservice architecture
+• The world-famous taxi-hailing software started off with a monolithic architecture
+designed to serve the sole city where it was developed, San Francisco.
+• When Uber expanded into more cities, they started to introduce new products and
+services.
+• The application started to grow rapidly, and that’s when maintaining the monolithic
+system became a real challenge.
+
+35
+
+• Uber decided to break up the monolith into multiple codebases to form a microservice
+architecture
+• The units are individual separate deployable units performing separate functionalities.
+• All the features can now be scaled individually
+• E.g. the number of people searching for cabs is comparatively more than the people actually booking a cab
+and making payments
+
+• Independently deployable
+• If you want to change anything in the billing microservices, then you just have to deploy only billing
+microservices and don’t have to deploy the others.
+
+36
+
+Scaling in monolithic application vs.
+microservices
+
+Monolithic Architecture
+
+Microservices Architecture
+
+37
+
+The three dimensions of scaling microservices
+
+Decompose a system to address the unique
+scaling needs of different functionality.
+
+Sharding: Horizontal data partitions
+
+Deploying multiple, identical instances
+of the application.
+
+38
+
+Functional Decomposition
+• With functional decomposition, you extract functionality and allow it to be
+scaled independently.
+• Which module should be decomposed first?
+Monolith first approach
+
+https://martinfowler.com/articles/break-monolith-into-microservices.html
+
+39
+
+Horizontal Duplication
+• Load balancer
+• Distribute the load across multiple copies of your functionality,
+• Detect when a node is unavailable and remove it from the load balancer pool.
+
+Read/Write
+
+40
+
+Data Partitioning
+• Divide the data in some way so that each server would get only a subset of it
+• Shading key
+• Decide which server is responsible for the data that you are looking for.
+
+• Scale both read and write
+
+Partitioning at the database level
+
+41
+
+Partition at the microservice instance level
+
+Software Bugs, Failure and Outage
+• When the system does not meet its desired service level objectives.
+Cause of Software Disruption
+
+Description
+
+Deployment Failure
+
+Issues during the deployment process leading to incomplete or failed updates.
+
+Hardware Failures
+
+Malfunction of physical components such as servers, storage, or networking gear.
+
+Software Bugs
+
+Errors or vulnerabilities in the application code that lead to crashes or failures.
+
+Network Issues
+
+Problems with network connectivity, such as outages or congestion.
+
+Human Error
+
+Mistakes made by operators or developers during deployment or maintenance.
+
+Power Outages
+
+Loss of electrical power affecting data centers or critical infrastructure.
+
+Natural Disasters
+
+Events like earthquakes, floods, or hurricanes that affect physical locations.
+
+Cyber Attacks
+
+Malicious activities such as DDoS attacks, hacking, or ransomware.
+
+Capacity Issues
+
+Overloading of resources due to unexpected spikes in traffic or usage.
+
+Third-Party Service Failures
+
+Disruptions in services provided by external vendors or partners.
+
+Configuration Changes
+
+Changes made to system settings or configurations that inadvertently cause issues.
+42
+
+Example: Blackboard outage
+
+43
+
+44
+
+Example: Alibaba Cloud Outage
+
+https://www.scmp.com/tech/big-tech/article/3203983/alibaba-clouds-recent-outage-hongkong-raises-alarm-infrastructure-risks-more-firms-shift-tech
+
+45
+
+Example: New Year Lucky Draw
+
+https://www.scmp.com/news/hong-kong/politics/article/3044134/new-year-lucky-draw-featuring-hk4-million-prizes-crashes
+
+46
+
+System Failure and Outage
+• When the system does not meet its desired service level objectives.
+
+Common causes of service disruption
+
+47
+
+Time to detect
+• Refers to the duration it takes to identify a problem or issue in software.
+• Measures the time from when a failure occurs to when it is noticed or detected
+by users or monitoring systems.
+• Involves monitoring software performance, logs, error reports, or user feedback
+to identify issues.
+• A shorter time to detect indicates effective monitoring and alerting systems.
+
+48
+
+Time to mitigate
+• Represents the duration between the detection of an incident and the implementation of
+mitigating actions to resolve or minimize the impact.
+• Involves identifying the root cause, analyzing the issue, and developing a plan to address it.
+• Can include activities like deploying code fixes, restarting services, or reallocating resources.
+• A shorter time to mitigate is crucial for minimizing downtime, reducing customer impact, and
+restoring system functionality.
+
+49
+
+Time between failure
+• Refers to the interval between two consecutive failures or incidents in a system or service.
+• Measures how often failures or incidents occur.
+• A longer time between failures indicates a more reliable system and better performance.
+• Increase the time between failures through proactive measures like monitoring, capacity
+planning, and fault-tolerant design.
+
+50
+
+Availability
+𝑈𝑝𝑡𝑖𝑚𝑒
+Availability =
+(𝑈𝑝𝑡𝑖𝑚𝑒 + 𝐷𝑜𝑤𝑛𝑡𝑖𝑚𝑒)
+
+• The proportion of time that the system is functional and working.
+• Measured as a percentage of uptime.
+• Availability is often described in terms of "9s"
+• E.g., "four 9s" means 99.99% uptime.
+% Uptime
+
+Downtime per week
+
+Downtime per month
+
+Downtime per year
+
+99%
+
+1.68 hours
+
+7.2 hours
+
+3.65 days
+
+99.9%
+
+10 minutes
+
+43.2 minutes
+
+8.76 hours
+
+99.95%
+
+5 minutes
+
+21.6 minutes
+
+4.38 hours
+
+99.99%
+
+1 minute
+
+4.32 minutes
+
+52.56 minutes
+
+99.999%
+
+6 seconds
+
+26 seconds
+
+5.26 minutes
+51
+
+𝐌𝐓𝐓𝐅
+𝐀𝐯𝐚𝐢𝐥𝐚𝐛𝐢𝐥𝐢𝐭𝐲 =
+𝐌𝐓𝐓𝐅+𝐌𝐓𝐓𝐑
+
+• 𝑀𝑇𝐵𝐹 = 𝑀𝑇𝑇𝐹 + 𝑀𝑇𝑇𝑅
+• Mean time between failure (MTBF)
+• Mean time to failure (MTTF)
+• Mean time to repair (MTTR)
+
+Time between failure
+Time to Repair
+
+Application
+Failure
+
+Application resumes
+normal operation
+
+Time to Failure
+
+Application
+Failure
+52
+
+Systems with hard dependency
+• An interruption in a dependent system directly translates to an interruption of the
+invoking system
+• The invoking system availability is the product of the dependent systems’ availabilities
+
+53
+
+Redundant components
+• A system may involve the use of independent, redundant components
+• E.g. Deploy cloud-based applications across different Availability Zones (AZ)
+Load balancer performs
+health checks to monitor
+health of registered targets.
+AWS Cloud
+
+Load balancer accepts
+incoming traffic
+Availability Zone A
+Availability Zone B
+from clients.
+
+Listener checks for
+connection requests.
+
+Listener
+
+✓ .
+
+•
+
+•
+
+Availability zones are data centers with redundant power,
+networking connectivity
+Each AZ is isolated from failures in other Availability Zone
+
+Target
+
+Listener
+
+Load balancer routes
+traffic only to
+healthy targets. Target
+Target
+
+X
+
+✓ .Target✓ .Target✓ .
+54
+
+Example
+• Suppose a system makes use of two independent components, each with an availability
+of 99.9%
+𝐴𝑣𝑎𝑖𝑙𝑎𝑏𝑖𝑙𝑖𝑡𝑦
+
+= M𝑎𝑥 𝑎𝑣𝑎𝑖𝑙𝑎𝑏𝑖𝑙𝑖𝑡𝑦 – (𝑑𝑜𝑤𝑛𝑡𝑖𝑚𝑒 𝑜𝑓 𝑑𝑒𝑝𝑒𝑛𝑑𝑒𝑛𝑡 1) ∗ (𝑑𝑜𝑤𝑛𝑡𝑖𝑚𝑒 𝑜𝑓 𝑑𝑒𝑝𝑒𝑛𝑑𝑒𝑛𝑡 2)
+= 100% − (0.1% ∗ 0.1%) = 99.99%
+
+55
+
+Common application availability design goals
+
+Ref: Reliability Pillar AWS Well-Architected Framework
+56
+
+Example implementation of availability goal
+99.9%: Customer-facing systems that are not high
+revenue for the business and can tolerate a longer
+recovery time or recovery point
+
+Ref: Reliability Pillar AWS Well-Architected Framework
+
+99.99% : Mission critical applications that are main or significant revenue
+drivers for a corporation (e.g. an e-commerce site, a business to business
+web service, or a high traffic content/media site.)
+
+57
+
+Waterfall Software development lifecycle
+• The whole process of software development is divided into separate phases.
+• The outcome of one phase acts as the input for the next phase sequentially.
+
+Customer
+
+Requirement
+specification
+
+58
+
+Reality of Software Development
+• No way to know if the requirements and design
+are right until the team starts building code
+• Requirements always change
+• changing customer desires and user needs
+• initial requirements analysis inadequate
+• understandings and insights gained through
+experience
+• changing technology and competitive situation
+
+• The design is never right the first time
+
+59
+
+What is Agile Development
+• Agile software development comprises various approaches to software
+development
+• Requirements and solutions evolve through the collaborative effort of selforganizing and cross-functional teams and their customer(s)/end user(s)
+
+60
+
+Agile Methodology
+• Scrum
+• Kanban
+
+61
+
+Release frequently
+• Agile team produces potentially releasable increments of the most valuable items every 30 days
+or less
+• Each release is an opportunity to create value when your product is put into the hands of
+customers.
+
+• Validate your idea by getting the software into the marketplace.
+• Validate that what you want to do is technically feasible.
+
+62
+
+Requirements development effort over time
+Video: The Wrong way to do Agile: Specifications
+
+63
+
+Companies that adopt Agile Development
+• Amazon
+• Facebook
+• Google
+• HP
+• Tesla
+• AirBnB
+• Netflix
+• Flickr
+• Etsy
+• OANA
+
+Ref: https://www.youtube.com/watch?v=CmcE1pvfWHc&t=1626s
+
+Google Software Development
+“Google is a company built on innovation and speed,
+releasing code the moment it is useful (when there are few
+users to disappoint) and iterating on features with early
+adopters (to maximize feedback).”
+“ Google prefers to release often and leans toward
+getting a product out to users quickly so we can get
+feedback and iterate. Google tries hard to develop only
+products that users will find compelling and to get new
+features out to users as early as possible so they might
+benefit from them. Plus, we avoid over-investing in
+features no user wants because we learn this early. This
+requires that we involve users and external developers
+early in the process so we have a good handle on whether
+what we are delivering hits the mark.”
+
+Source: How Google Test Software
+
+Ref: Software Engineering at google scale
+65
+
+Case Study: Software Development Roles at Google
+Role
+Product Managers
+
+Responsibilities
+- Deciding what to build at Google.
+
+Software Engineers
+
+-
+
+Solve software problems through coding.
+Use Google's tools to streamline software development, code review, and deployment.
+
+-
+
+-
+
+Find bugs before users do, ensuring quality for millions
+Involved in product development, planning, and feature discussions, focusing on a single
+area deeply.
+Ensure software and system quality, finding ways software can break and preventing these
+issues
+Work on various aspects like UI testing for VR apps and enabling developers to write
+automated tests.
+Develop new testing technology for global adoption.
+
+-
+
+Automate the release pipeline to ensure quality, security, and repeatability.
+
+-
+
+Keep Google systems up and running 24/7, ensuring constant access
+Includes a variety of responsibilities like reading/writing designs, coding, and solving technical
+problems
+Responsible for the service's functionality, cost-efficiency, reparability, and scalability.
+
+Software Engineering in Test (SET)
+
+-
+
+Test Engineers (TE)
+
+Release Engineers
+
+Site Reliability Engineers
+
+-
+
+-
+
+66
+
+Test Automation
+• Test automation involves the use of software to control the execution of tests
+• A unit test case consists of code which checks if another part of code (method)
+works as expected.
+• JUnit is a unit testing framework for Java programming language.
+
+67
+
+Automated Testing at Microsoft
+• “We literally run 60,000 plus unit tests on
+every single pull request”
+• “We run sixty somewhat thousand unit tests
+in under seven minutes”
+
+Donovan Brown: "Microsoft’s Agile Transformation Story"
+68
+https://youtu.be/nno6DwevspI
+
+Software Deployment
+• The system is deployed in the customer environment or released into the
+market/production.
+• Software Deployment strategies
+• "Big Bang" Deployment
+• Rolling Upgrades
+• Blue-Green Deployment
+• Canary Deployment
+• Versioned Deployment
+
+69
+
+"Big Bang" Deployment
+• All users of a system are moved to the new system at a specific date and time
+• Required the business to conduct extensive development and testing before
+release
+• Risky for public-facing or business-critical application
+• downtime without easy rollbacks.
+
+70
+
+Rolling Upgrades
+• An application’s new version gradually replaces the old one.
+• New and old versions will coexist for some time
+• Allow roll back any new component incompatible with the old components.
+
+71
+
+Blue-Green Deployment
+• Maintain two identical production environments work in parallel.
+• One is the currently-running production environment receiving all user traffic (Blue).
+• The new version of the application is deployed in the green environment and tested for
+functionality and performance
+
+• Once the testing results are successful, application traffic is routed from blue to
+green. Green then becomes the new production.
+• If there is an issue after green becomes live, traffic can be routed back to blue.
+
+Testing
+
+72
+
+Canary Deployment
+• Also maintain two production environment
+• Instead of switching from blue to green in one step, you deploy a new application code
+in a small part of the production infrastructure.
+• minimizes any impact/risk
+
+• With no errors reported, the new version can gradually roll out to the rest of the
+infrastructure.
+
+73
+
+Canary Deployment/Testing
+• Canary release
+• Gradually release new features to a subset of your users
+• reduce the risk of introducing a new software version in production
+
+• A/B test features to assess performance before releasing them to a majority of your
+users.
+
+74
+
+Dark Launching
+• A software development technique that turns certain functionality
+on and off during runtime, without deploying new code.
+• Decoupling deploy from release
+• As long as a feature is not ready to be released, it is disabled.
+
+if(featureFlags[‘new-cool-feature’] == TRUE){
+renderNewCoolFeature();
+}
+
+75
+
+Use of feature flags
+• Roll out features only to certain user segments
+• A/B tests
+• Enable a feature for half of a segment of users, and disable the feature for the other half
+• Observe how the two perform against each other for a certain metric (eg. app usage or purchases)
+
+76
+
+Versioned Deployment
+• Keep all versions alive, while letting the user choose which version to use
+• Popular amongst API developers
+• Extra capacity to host legacy versions, and maintaining shared data sources across
+versions.
+
+77
+
+
