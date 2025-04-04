@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<style>
-    .question-container {
-        margin: 20px 0;
-    }
-</style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Current Exercise Info</title>
+    <style>
+        .question-container {
+            margin: 20px 0;
+        }
+    </style>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -20,26 +20,29 @@
         </header>
 
         <div id="exercise-content" class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 relative">
-            <p id="content-placeholder" class="text-gray-700 dark:text-gray-300">Loading content...</p> <!-- Placeholder for content -->
+            <!-- <p id="content-placeholder" class="text-gray-700 dark:text-gray-300">Loading content...</p> -->
             <div id="main-question-container"></div>
 
+            <!-- Link to Class materials -->
+            <div class="question-container">
+                <p class="text-gray-700 dark:text-gray-300">
+                    <a href="https://www.roblox.com/games/74038833347307/project" class="text-blue-500 hover:underline" target="_blank">Class materials</a>
+                </p>
+            </div>
+
             <!-- Submit Button -->
-            <div style="display: flex; margin-left: auto;"><button id="submit-button" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition-colors">
-                Submit
-            </button>
-        </div>
+            <div style="display: flex; margin-left: auto;">
+                <!-- <button id="submit-button" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition-colors">
+                    Submit
+                </button> -->
+            </div>
         </div>
     </div>
 
     <script>
         (()=>{
-        // Call the questionTypeHandle function to process the exercise data
-        questionTypeHandle();
-    const submitButton = document.getElementById('submit-button');
-    if (submitButton) {
-        submitButton.addEventListener('click', checkAnswer);
-    }
-})();
+            
+        })();
     </script>
 </body>
 </html>
