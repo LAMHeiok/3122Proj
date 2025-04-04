@@ -1,8 +1,6 @@
 # Requirements
 
-Mar19: Update file list reload and add PDF viewer (.docx not done)
-
-Please install Node.js, LMStudio
+Please install Node.js
 
 ```
 npm install cors@^2.8.5
@@ -35,19 +33,21 @@ Version for reference:
 
 Remember to run `node js/server.mjs` for the AI to response
 
-You can always change the model to test the efficiency/performance in `server.mjs (line 27)`
+You will need to set the OpenAI model through editing the "credentials" file before using it.
 
-You will need to install the model through LMStudio before using it.
+Format of credentials:
 
-For my potato computer, it really TAKES some time to respond, in case you think it doesn't work
+```GITHUB_API_KEY="{your github api key}"
+GITHUB_API_ENDPOINT="https://models.inference.ai.azure.com"
+GITHUB_API_MODEL_NAME="gpt-4o-mini"
+```
 
 If any error occurs, please check the F12 console to see if any error occurs, normally, you would see
 
 ```
-sendLLM Ran
 GetResponse is called!
 ```
 
-Inside F12/Network, you should see `generate` where the actual response is `response/content`, I have a cleaner to remove any tag or `\n` 
+Inside F12/Network, you should see `generate` where the actual response is `response/content`.
 
 If you encounter bug, go to 3122Proj\node_modules\pdf-parse\index.js, remove testing purpose code.
