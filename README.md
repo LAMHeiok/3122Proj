@@ -13,7 +13,8 @@ npm install pdf-parse@^1.1.1
 
 Version for reference:
 
-```{
+```
+{
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.2",
@@ -33,16 +34,17 @@ Version for reference:
 
 Remember to run `node js/server.mjs` for the AI to response
 
-You will need to set the OpenAI model through editing the "credentials" file before using it.
+You will need to set the OpenAI model by editing the "credentials" file before using it.
 
 Format of credentials:
 
-```GITHUB_API_KEY="{your github api key}"
+```
+GITHUB_API_KEY="{your github api key}"
 GITHUB_API_ENDPOINT="https://models.inference.ai.azure.com"
 GITHUB_API_MODEL_NAME="gpt-4o-mini"
 ```
 
-If any error occurs, please check the F12 console to see if any error occurs, normally, you would see
+If any error occurs, please check the F12 console to see if any error occurs. Normally, you would see
 
 ```
 GetResponse is called!
@@ -50,4 +52,4 @@ GetResponse is called!
 
 Inside F12/Network, you should see `generate` where the actual response is `response/content`.
 
-If you encounter bug, go to 3122Proj\node_modules\pdf-parse\index.js, remove testing purpose code.
+If you encounter a bug, go to 3122Proj\node_modules\pdf-parse\index.js, and remove the testing purpose code.
